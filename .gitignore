@@ -14,6 +14,7 @@ api/\[\[...path\]\].js
 .claude/
 .cursor/
 CLAUDE.md
+TASKS.md
 .env.vercel-backup
 .env.vercel-export
 .agent/
