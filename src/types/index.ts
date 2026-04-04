@@ -74,6 +74,8 @@ export interface Feed {
   propagandaRisk?: PropagandaRisk;
   stateAffiliated?: string;  // e.g., "Russia", "China", "Iran"
   lang?: string;             // ISO 2-letter code for filtering
+  tier?: 'primary' | 'secondary'; // primary = labs/wire services, secondary = blogs/newsletters
+  keywords?: string[];       // topic keywords for downstream classification filtering
 }
 
 export type ThreatLevel = 'critical' | 'high' | 'medium' | 'low' | 'info';
