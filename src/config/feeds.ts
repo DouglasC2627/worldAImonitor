@@ -1184,8 +1184,125 @@ const COMMODITY_FEEDS: Record<string, Feed[]> = {
   ],
 };
 
+// ============================================
+// AI VARIANT FEEDS (World AI Monitor)
+// ============================================
+const AI_FEEDS: Record<string, Feed[]> = {
+  research: [
+    { name: 'ArXiv AI',         url: rss('https://export.arxiv.org/rss/cs.AI') },
+    { name: 'ArXiv ML',         url: rss('https://export.arxiv.org/rss/cs.LG') },
+    { name: 'ArXiv CL',         url: rss('https://export.arxiv.org/rss/cs.CL') },
+    { name: 'ArXiv CV',         url: rss('https://export.arxiv.org/rss/cs.CV') },
+    { name: 'ArXiv Robotics',   url: rss('https://export.arxiv.org/rss/cs.RO') },
+    { name: 'ArXiv Stat ML',    url: rss('https://export.arxiv.org/rss/stat.ML') },
+    { name: 'Google DeepMind',  url: rss('https://deepmind.google/blog/rss.xml') },
+    { name: 'OpenAI Research',  url: rss('https://news.google.com/rss/search?q=site:openai.com+research+when:14d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Anthropic Research', url: rss('https://news.google.com/rss/search?q=site:anthropic.com+research+when:14d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Meta AI Research', url: rss('https://news.google.com/rss/search?q=site:ai.meta.com+research+when:14d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Papers With Code', url: rss('https://paperswithcode.com/newsletter/rss/') },
+    { name: 'Hugging Face Papers', url: rss('https://huggingface.co/blog/feed.xml') },
+    { name: 'Allen AI Blog',    url: rss('https://news.google.com/rss/search?q=site:allenai.org+when:14d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Microsoft Research AI', url: rss('https://news.google.com/rss/search?q=site:microsoft.com+research+AI+when:14d&hl=en-US&gl=US&ceid=US:en') },
+  ],
+  modelReleases: [
+    { name: 'AI News',          url: rss('https://news.google.com/rss/search?q=(OpenAI+OR+Anthropic+OR+Google+AI+OR+"large+language+model"+OR+ChatGPT+OR+Claude+OR+"AI+model")+when:2d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'VentureBeat AI',   url: rss('https://venturebeat.com/category/ai/feed/') },
+    { name: 'The Verge AI',     url: rss('https://www.theverge.com/rss/ai-artificial-intelligence/index.xml') },
+    { name: 'MIT Tech Review AI', url: rss('https://www.technologyreview.com/topic/artificial-intelligence/feed') },
+    { name: 'LMSYS Blog',       url: rss('https://news.google.com/rss/search?q=LMSYS+Chatbot+Arena+leaderboard+when:7d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Mistral AI',       url: rss('https://news.google.com/rss/search?q=Mistral+AI+model+release+when:14d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Cohere Blog',      url: rss('https://news.google.com/rss/search?q=site:cohere.com+blog+when:14d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'xAI Grok',        url: rss('https://news.google.com/rss/search?q=xAI+Grok+model+OR+"Elon+Musk"+AI+release+when:7d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Scale AI Blog',    url: rss('https://news.google.com/rss/search?q=site:scale.com+blog+when:14d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Together AI',      url: rss('https://news.google.com/rss/search?q=site:together.ai+OR+"Together+AI"+blog+when:14d&hl=en-US&gl=US&ceid=US:en') },
+  ],
+  agenticAI: [
+    { name: 'Agentic AI News',  url: rss('https://news.google.com/rss/search?q=("AI+agent"+OR+"agentic+AI"+OR+"multi-agent")+when:3d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'LangChain Blog',   url: rss('https://news.google.com/rss/search?q=site:blog.langchain.dev+when:14d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'SWE-bench Updates', url: rss('https://news.google.com/rss/search?q=SWE-bench+OR+SWEbench+AI+coding+agent+when:14d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'OpenAI Agents',    url: rss('https://news.google.com/rss/search?q=OpenAI+agent+OR+"computer+use"+OR+"operator"+when:7d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Anthropic Computer Use', url: rss('https://news.google.com/rss/search?q=Anthropic+"computer+use"+OR+Claude+agent+when:7d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Agent Benchmarks', url: rss('https://news.google.com/rss/search?q=(GAIA+benchmark+OR+AgentBench+OR+agent+evaluation)+AI+when:14d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'AutoGPT News',     url: rss('https://news.google.com/rss/search?q=AutoGPT+OR+AutoGen+OR+CrewAI+OR+LlamaIndex+agent+when:7d&hl=en-US&gl=US&ceid=US:en') },
+  ],
+  worldModels: [
+    { name: 'Video AI News',    url: rss('https://news.google.com/rss/search?q=("world+model"+OR+"video+generation"+OR+Sora+OR+Runway+ML)+AI+when:7d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Runway ML',        url: rss('https://news.google.com/rss/search?q=site:runwayml.com+OR+"Runway+ML"+announcement+when:14d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Stability AI',     url: rss('https://news.google.com/rss/search?q=site:stability.ai+OR+"Stability+AI"+release+when:14d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Video AI Models',  url: rss('https://news.google.com/rss/search?q=(Kling+OR+Wan+OR+HeyGen+OR+Pika+Labs+OR+Veo)+video+AI+when:7d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'DeepMind Genie',   url: rss('https://news.google.com/rss/search?q=DeepMind+(Genie+OR+Gemini+OR+"world+model")+when:14d&hl=en-US&gl=US&ceid=US:en') },
+  ],
+  physicalAI: [
+    { name: 'Robotics AI News', url: rss('https://news.google.com/rss/search?q=("physical+AI"+OR+humanoid+robot+OR+embodied+AI)+when:3d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Figure AI',        url: rss('https://news.google.com/rss/search?q="Figure+AI"+robot+when:14d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Physical Intelligence', url: rss('https://news.google.com/rss/search?q="Physical+Intelligence"+OR+"pi.ai"+robotics+when:14d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Boston Dynamics',  url: rss('https://news.google.com/rss/search?q="Boston+Dynamics"+robot+when:14d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Tesla Optimus',    url: rss('https://news.google.com/rss/search?q=Tesla+Optimus+robot+OR+"Tesla+bot"+when:7d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'NVIDIA Isaac',     url: rss('https://news.google.com/rss/search?q=NVIDIA+(Isaac+OR+Cosmos+OR+robotics)+when:14d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'IEEE Spectrum Robotics', url: rss('https://spectrum.ieee.org/feeds/topic/robotics.rss') },
+    { name: '1X Technologies',  url: rss('https://news.google.com/rss/search?q="1X+Technologies"+OR+Agility+Robotics+OR+Apptronik+when:14d&hl=en-US&gl=US&ceid=US:en') },
+  ],
+  ventureFunding: [
+    { name: 'AI Funding News',  url: rss('https://news.google.com/rss/search?q=(AI+startup+funding+OR+"artificial+intelligence"+investment+OR+AI+raises)+when:3d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'TechCrunch AI VC', url: rss('https://techcrunch.com/category/venture/feed/') },
+    { name: 'Crunchbase AI',    url: rss('https://news.crunchbase.com/feed/') },
+    { name: 'a16z Blog',        url: rss('https://news.google.com/rss/search?q=site:a16z.com+AI+when:14d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Sequoia AI',       url: rss('https://news.google.com/rss/search?q=site:sequoiacap.com+AI+when:14d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Khosla AI',        url: rss('https://news.google.com/rss/search?q=site:khoslaventures.com+AI+when:30d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'AI Mega Rounds',   url: rss('https://news.google.com/rss/search?q=(AI+startup+"$100+million"+OR+"$1+billion"+OR+"Series+C"+OR+"Series+D")+when:7d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'AI Unicorns',      url: rss('https://news.google.com/rss/search?q=(AI+unicorn+OR+AI+valuation+OR+"AI+company"+funding)+when:7d&hl=en-US&gl=US&ceid=US:en') },
+  ],
+  aiInfrastructure: [
+    { name: 'SemiAnalysis',     url: rss('https://news.google.com/rss/search?q=site:semianalysis.com+when:7d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'NVIDIA AI',        url: rss('https://news.google.com/rss/search?q=NVIDIA+(H100+OR+H200+OR+B200+OR+Blackwell+OR+AI+chip)+when:3d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Chip News',        url: rss('https://news.google.com/rss/search?q=(AMD+MI300+OR+Intel+Gaudi+OR+Groq+OR+Cerebras+OR+Tenstorrent)+AI+chip+when:7d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Cloud AI Infra',   url: rss('https://news.google.com/rss/search?q=(AWS+AI+OR+Google+Cloud+TPU+OR+Azure+AI)+infrastructure+when:7d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'CoreWeave',        url: rss('https://news.google.com/rss/search?q=CoreWeave+OR+Lambda+Labs+OR+Vast.ai+GPU+cloud+when:7d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'AI Datacenter',    url: rss('https://news.google.com/rss/search?q=(AI+datacenter+OR+"GPU+cluster"+OR+"AI+supercomputer")+when:3d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Semiconductor News', url: rss('https://news.google.com/rss/search?q=(TSMC+OR+Samsung+foundry+OR+"Intel+Foundry")+AI+chip+when:7d&hl=en-US&gl=US&ceid=US:en') },
+  ],
+  aiPolicy: [
+    { name: 'AI Policy News',   url: rss('https://news.google.com/rss/search?q=(AI+regulation+OR+"AI+policy"+OR+"AI+governance")+when:3d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'EU AI Act',        url: rss('https://news.google.com/rss/search?q="EU+AI+Act"+OR+"European+AI+regulation"+when:7d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'US AI Policy',     url: rss('https://news.google.com/rss/search?q=(US+AI+policy+OR+"AI+executive+order"+OR+NIST+AI)+when:7d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'UK AI Safety',     url: rss('https://news.google.com/rss/search?q=("UK+AI+Safety+Institute"+OR+DSIT+AI+OR+"Bletchley")+when:7d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Stanford HAI',     url: rss('https://news.google.com/rss/search?q=site:hai.stanford.edu+when:14d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'AI Now Institute', url: rss('https://news.google.com/rss/search?q="AI+Now+Institute"+when:14d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'OECD AI Policy',   url: rss('https://news.google.com/rss/search?q=OECD+AI+policy+OR+"AI+governance"+international+when:14d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'China AI Policy',  url: rss('https://news.google.com/rss/search?q=China+AI+regulation+OR+China+AI+policy+when:7d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Future of Life',   url: rss('https://news.google.com/rss/search?q=site:futureoflife.org+when:14d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Center for AI Safety', url: rss('https://news.google.com/rss/search?q="Center+for+AI+Safety"+when:14d&hl=en-US&gl=US&ceid=US:en') },
+  ],
+  aiSafety: [
+    { name: 'AI Safety News',   url: rss('https://news.google.com/rss/search?q=("AI+safety"+OR+"AI+alignment"+OR+"AI+risk")+research+when:3d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Alignment Forum',  url: rss('https://www.alignmentforum.org/feed.xml') },
+    { name: 'LessWrong AI',     url: rss('https://news.google.com/rss/search?q=site:lesswrong.com+AI+alignment+when:7d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'AI Safety Research', url: rss('https://news.google.com/rss/search?q=(Redwood+Research+OR+ARC+Evals+OR+METR+OR+Apollo+Research)+AI+safety+when:14d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'AI Incidents',     url: rss('https://news.google.com/rss/search?q=("AI+incident"+OR+AI+misuse+OR+AI+failure+OR+"AI+safety+incident")+when:7d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Anthropic Safety', url: rss('https://news.google.com/rss/search?q=Anthropic+(safety+OR+alignment+OR+research)+when:14d&hl=en-US&gl=US&ceid=US:en') },
+  ],
+  openSource: [
+    { name: 'Hugging Face Blog', url: rss('https://huggingface.co/blog/feed.xml') },
+    { name: 'GitHub Trending AI', url: rss('https://news.google.com/rss/search?q=("open+source"+AI+model+OR+open+weights+OR+"open-source+LLM")+when:3d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Ollama Updates',   url: rss('https://news.google.com/rss/search?q=Ollama+OR+LMStudio+OR+vLLM+OR+llama.cpp+release+when:7d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'EleutherAI',       url: rss('https://news.google.com/rss/search?q=EleutherAI+OR+"Pile"+OR+GPT-NeoX+when:14d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'PyTorch Blog',     url: rss('https://pytorch.org/blog/feed.xml') },
+    { name: 'Open Source AI Models', url: rss('https://news.google.com/rss/search?q=(Meta+Llama+OR+Mistral+OR+Qwen+OR+Gemma+OR+Falcon)+open+source+release+when:7d&hl=en-US&gl=US&ceid=US:en') },
+  ],
+  enterpriseAI: [
+    { name: 'Enterprise AI News', url: rss('https://news.google.com/rss/search?q=("enterprise+AI"+OR+AI+adoption+OR+AI+deployment)+when:3d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Databricks Blog',  url: rss('https://news.google.com/rss/search?q=site:databricks.com+blog+AI+when:14d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Snowflake AI',     url: rss('https://news.google.com/rss/search?q=Snowflake+AI+OR+Snowflake+Arctic+when:14d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Salesforce AI',    url: rss('https://news.google.com/rss/search?q=Salesforce+AI+OR+Einstein+AI+when:7d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'IBM watsonx',      url: rss('https://news.google.com/rss/search?q=IBM+watsonx+OR+IBM+Granite+AI+when:7d&hl=en-US&gl=US&ceid=US:en') },
+    { name: 'Palantir AI',      url: rss('https://news.google.com/rss/search?q=Palantir+AI+OR+Palantir+AIP+when:7d&hl=en-US&gl=US&ceid=US:en') },
+  ],
+};
+
 // Variant-aware exports
-export const FEEDS = SITE_VARIANT === 'tech'
+export const FEEDS = SITE_VARIANT === 'ai'
+  ? AI_FEEDS
+  : SITE_VARIANT === 'tech'
   ? TECH_FEEDS
   : SITE_VARIANT === 'finance'
     ? FINANCE_FEEDS

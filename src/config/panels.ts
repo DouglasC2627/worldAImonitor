@@ -840,6 +840,148 @@ const COMMODITY_MOBILE_MAP_LAYERS: MapLayers = {
 };
 
 // ============================================
+// AI VARIANT (World AI Monitor)
+// ============================================
+const AI_PANELS: Record<string, PanelConfig> = {
+  map:                  { name: 'Global AI Map',              enabled: true,  priority: 1 },
+  'live-news':          { name: 'Breaking AI News',           enabled: true,  priority: 1 },
+  insights:             { name: 'AI Intelligence Digest',     enabled: true,  priority: 1 },
+  'research-feed':      { name: 'Research Papers',            enabled: true,  priority: 1 },
+  'model-releases':     { name: 'Model Release Tracker',      enabled: true,  priority: 1 },
+  'lab-activity':       { name: 'AI Lab Intelligence',        enabled: true,  priority: 1 },
+  'funding-radar':      { name: 'AI Funding & Deals',         enabled: true,  priority: 1 },
+  'ai-policy':          { name: 'AI Policy & Governance',     enabled: true,  priority: 1 },
+  'compute-infra':      { name: 'Compute & Infrastructure',   enabled: true,  priority: 1 },
+  'agentic-ai':         { name: 'Agentic AI Activity',        enabled: true,  priority: 1 },
+  'physical-ai':        { name: 'Physical AI & Robotics',     enabled: true,  priority: 1 },
+  'world-models':       { name: 'World Models & Video AI',    enabled: true,  priority: 1 },
+  'safety-alignment':   { name: 'AI Safety & Alignment',      enabled: true,  priority: 1 },
+  'open-source-ai':     { name: 'Open Source AI',             enabled: true,  priority: 1 },
+  'enterprise-adoption':{ name: 'Enterprise AI Adoption',     enabled: true,  priority: 2 },
+  'ai-correlation':     { name: 'AI Story Correlation',       enabled: true,  priority: 2 },
+  'deduction-ai':       { name: 'AI Situation Deductions',    enabled: true,  priority: 2 },
+  'capability-curve':   { name: 'Capability Progress',        enabled: true,  priority: 2, premium: 'locked' as const },
+  'ai-forecast':        { name: 'AI Prediction Markets',      enabled: true,  priority: 2, premium: 'locked' as const },
+  'ai-insights':        { name: 'AI Synthesis',               enabled: true,  priority: 2, premium: 'locked' as const },
+  github:               { name: 'GitHub Trending',            enabled: true,  priority: 2 },
+  polymarket:           { name: 'AI Predictions',             enabled: true,  priority: 2 },
+  markets:              { name: 'AI & Chip Stocks',           enabled: true,  priority: 2 },
+  layoffs:              { name: 'AI Layoffs Tracker',         enabled: true,  priority: 2 },
+  'world-clock':        { name: 'World Clock',                enabled: true,  priority: 2 },
+  monitors:             { name: 'My Monitors',                enabled: true,  priority: 2 },
+};
+
+const AI_MAP_LAYERS: MapLayers = {
+  gpsJamming: false,
+  satellites: false,
+  iranAttacks: false,
+  conflicts: false,
+  bases: false,
+  cables: true,
+  pipelines: false,
+  hotspots: false,
+  ais: false,
+  nuclear: false,
+  irradiators: false,
+  radiationWatch: false,
+  sanctions: false,
+  weather: false,
+  economic: false,
+  waterways: false,
+  outages: true,
+  cyberThreats: false,
+  datacenters: true,
+  protests: false,
+  flights: false,
+  military: false,
+  natural: false,
+  spaceports: false,
+  minerals: false,
+  fires: false,
+  ucdpEvents: false,
+  displacement: false,
+  climate: false,
+  startupHubs: true,
+  cloudRegions: true,
+  accelerators: false,
+  techHQs: true,
+  techEvents: false,
+  stockExchanges: false,
+  financialCenters: false,
+  centralBanks: false,
+  commodityHubs: false,
+  gulfInvestments: false,
+  positiveEvents: false,
+  kindness: false,
+  happiness: false,
+  speciesRecovery: false,
+  renewableInstallations: false,
+  tradeRoutes: false,
+  ciiChoropleth: false,
+  dayNight: false,
+  miningSites: false,
+  processingPlants: false,
+  commodityPorts: false,
+  webcams: false,
+  weatherRadar: false,
+};
+
+const AI_MOBILE_MAP_LAYERS: MapLayers = {
+  gpsJamming: false,
+  satellites: false,
+  iranAttacks: false,
+  conflicts: false,
+  bases: false,
+  cables: false,
+  pipelines: false,
+  hotspots: false,
+  ais: false,
+  nuclear: false,
+  irradiators: false,
+  radiationWatch: false,
+  sanctions: false,
+  weather: false,
+  economic: false,
+  waterways: false,
+  outages: true,
+  cyberThreats: false,
+  datacenters: true,
+  protests: false,
+  flights: false,
+  military: false,
+  natural: false,
+  spaceports: false,
+  minerals: false,
+  fires: false,
+  ucdpEvents: false,
+  displacement: false,
+  climate: false,
+  startupHubs: true,
+  cloudRegions: false,
+  accelerators: false,
+  techHQs: false,
+  techEvents: false,
+  stockExchanges: false,
+  financialCenters: false,
+  centralBanks: false,
+  commodityHubs: false,
+  gulfInvestments: false,
+  positiveEvents: false,
+  kindness: false,
+  happiness: false,
+  speciesRecovery: false,
+  renewableInstallations: false,
+  tradeRoutes: false,
+  ciiChoropleth: false,
+  dayNight: false,
+  miningSites: false,
+  processingPlants: false,
+  commodityPorts: false,
+  webcams: false,
+  weatherRadar: false,
+};
+
+// ============================================
 // UNIFIED PANEL REGISTRY
 // ============================================
 
@@ -847,6 +989,7 @@ const COMMODITY_MOBILE_MAP_LAYERS: MapLayers = {
 export const ALL_PANELS: Record<string, PanelConfig> = {
   ...HAPPY_PANELS,
   ...COMMODITY_PANELS,
+  ...AI_PANELS,
   ...TECH_PANELS,
   ...FINANCE_PANELS,
   ...FULL_PANELS,
@@ -859,6 +1002,7 @@ export const VARIANT_DEFAULTS: Record<string, string[]> = {
   finance:   Object.keys(FINANCE_PANELS),
   commodity: Object.keys(COMMODITY_PANELS),
   happy:     Object.keys(HAPPY_PANELS),
+  ai:        Object.keys(AI_PANELS),
 };
 
 /**
@@ -875,6 +1019,11 @@ export const VARIANT_PANEL_OVERRIDES: Partial<Record<string, Partial<Record<stri
     map:         { name: 'Global Tech Map' },
     'live-news': { name: 'Tech Headlines' },
     insights:    { name: 'AI Insights' },
+  },
+  ai: {
+    map:         { name: 'Global AI Map' },
+    'live-news': { name: 'Breaking AI News' },
+    insights:    { name: 'AI Intelligence Digest' },
   },
   commodity: {
     map:         { name: 'Commodity Map' },
@@ -925,25 +1074,29 @@ export const DEFAULT_PANELS: Record<string, PanelConfig> = Object.fromEntries(
   )
 );
 
-export const DEFAULT_MAP_LAYERS = SITE_VARIANT === 'happy' 
-  ? HAPPY_MAP_LAYERS 
-  : SITE_VARIANT === 'tech' 
-    ? TECH_MAP_LAYERS 
-    : SITE_VARIANT === 'finance' 
-      ? FINANCE_MAP_LAYERS 
+export const DEFAULT_MAP_LAYERS = SITE_VARIANT === 'happy'
+  ? HAPPY_MAP_LAYERS
+  : SITE_VARIANT === 'tech'
+    ? TECH_MAP_LAYERS
+    : SITE_VARIANT === 'finance'
+      ? FINANCE_MAP_LAYERS
       : SITE_VARIANT === 'commodity'
         ? COMMODITY_MAP_LAYERS
-        : FULL_MAP_LAYERS;
+        : SITE_VARIANT === 'ai'
+          ? AI_MAP_LAYERS
+          : FULL_MAP_LAYERS;
 
-export const MOBILE_DEFAULT_MAP_LAYERS = SITE_VARIANT === 'happy' 
-  ? HAPPY_MOBILE_MAP_LAYERS 
-  : SITE_VARIANT === 'tech' 
-    ? TECH_MOBILE_MAP_LAYERS 
-    : SITE_VARIANT === 'finance' 
-      ? FINANCE_MOBILE_MAP_LAYERS 
+export const MOBILE_DEFAULT_MAP_LAYERS = SITE_VARIANT === 'happy'
+  ? HAPPY_MOBILE_MAP_LAYERS
+  : SITE_VARIANT === 'tech'
+    ? TECH_MOBILE_MAP_LAYERS
+    : SITE_VARIANT === 'finance'
+      ? FINANCE_MOBILE_MAP_LAYERS
       : SITE_VARIANT === 'commodity'
         ? COMMODITY_MOBILE_MAP_LAYERS
-        : FULL_MOBILE_MAP_LAYERS;
+        : SITE_VARIANT === 'ai'
+          ? AI_MOBILE_MAP_LAYERS
+          : FULL_MOBILE_MAP_LAYERS;
 
 /** Maps map-layer toggle keys to their data-freshness source IDs (single source of truth). */
 export const LAYER_TO_SOURCE: Partial<Record<keyof MapLayers, DataSourceId[]>> = {
@@ -1061,6 +1214,28 @@ export const PANEL_CATEGORY_MAP: Record<string, { labelKey: string; panelKeys: s
     labelKey: 'header.panelCatCommodityEcon',
     panelKeys: ['trade-policy', 'sanctions-pressure', 'economic', 'gulf-economies', 'gcc-investments', 'consumer-prices', 'finance', 'polymarket', 'airline-intel', 'world-clock', 'monitors'],
     variants: ['commodity'],
+  },
+
+  // AI variant
+  aiCore: {
+    labelKey: 'header.panelCatAiCore',
+    panelKeys: ['map', 'live-news', 'insights', 'research-feed', 'model-releases', 'lab-activity'],
+    variants: ['ai'],
+  },
+  aiIntelligence: {
+    labelKey: 'header.panelCatAiIntelligence',
+    panelKeys: ['ai-correlation', 'deduction-ai', 'ai-insights', 'capability-curve', 'ai-forecast'],
+    variants: ['ai'],
+  },
+  aiThemes: {
+    labelKey: 'header.panelCatAiThemes',
+    panelKeys: ['agentic-ai', 'physical-ai', 'world-models', 'open-source-ai', 'enterprise-adoption'],
+    variants: ['ai'],
+  },
+  aiMarket: {
+    labelKey: 'header.panelCatAiMarket',
+    panelKeys: ['funding-radar', 'compute-infra', 'ai-policy', 'safety-alignment', 'markets', 'github', 'polymarket', 'layoffs', 'monitors', 'world-clock'],
+    variants: ['ai'],
   },
 
   // Happy variant
