@@ -1316,7 +1316,7 @@ const COMMODITY_FEEDS: Record<string, Feed[]> = {
 const AI_FEEDS: Record<string, Feed[]> = {
 
   // ── Research: Academic Papers & Preprints ──────────────────────────────────
-  research: [
+  'research-feed': [
     { name: 'ArXiv AI',              tier: 'primary',   keywords: ['neural network', 'deep learning', 'artificial intelligence', 'reinforcement learning'], url: rss('https://export.arxiv.org/rss/cs.AI') },
     { name: 'ArXiv ML',              tier: 'primary',   keywords: ['machine learning', 'deep learning', 'training', 'optimization', 'generalization'], url: rss('https://export.arxiv.org/rss/cs.LG') },
     { name: 'ArXiv CL',              tier: 'primary',   keywords: ['language model', 'NLP', 'text generation', 'tokenization', 'RLHF', 'instruction tuning'], url: rss('https://export.arxiv.org/rss/cs.CL') },
@@ -1333,10 +1333,7 @@ const AI_FEEDS: Record<string, Feed[]> = {
     { name: 'Allen AI (AI2)',        tier: 'secondary', keywords: ['OLMo', 'research', 'NLP', 'open', 'scientific AI'], url: rss('https://news.google.com/rss/search?q=site:allenai.org+when:14d&hl=en-US&gl=US&ceid=US:en') },
     { name: 'Google AI Blog',        tier: 'primary',   keywords: ['research', 'model', 'Google', 'breakthrough', 'multimodal'], url: rss('https://news.google.com/rss/search?q=site:blog.google+AI+research+when:14d&hl=en-US&gl=US&ceid=US:en') },
     { name: 'MIT Research AI',       tier: 'secondary', keywords: ['MIT', 'research', 'AI', 'robotics', 'language'], url: rss('https://news.mit.edu/rss/research') },
-  ],
-
-  // ── Architectures: Model Architecture Papers ──────────────────────────────
-  architectures: [
+    // ── Architecture papers ────────────────────────────────────────────────
     { name: 'ArXiv Architectures',   tier: 'primary',   keywords: ['transformer', 'attention', 'SSM', 'Mamba', 'MoE', 'mixture of experts', 'diffusion', 'RLHF', 'RLAIF', 'multimodal'], url: rss('https://news.google.com/rss/search?q=arxiv+(transformer+OR+Mamba+OR+SSM+OR+"mixture+of+experts"+OR+MoE+OR+diffusion+model+OR+RLHF)+when:3d&hl=en-US&gl=US&ceid=US:en') },
     { name: 'Distill.pub',           tier: 'primary',   keywords: ['architecture', 'attention', 'neural network', 'visualization', 'explainer'], url: rss('https://distill.pub/rss.xml') },
     { name: 'The Gradient',          tier: 'secondary', keywords: ['architecture', 'research', 'deep learning', 'analysis', 'survey'], url: rss('https://thegradient.pub/rss/') },
@@ -1348,7 +1345,7 @@ const AI_FEEDS: Record<string, Feed[]> = {
   ],
 
   // ── Model Releases: Launches & Benchmarks ─────────────────────────────────
-  modelReleases: [
+  'model-releases': [
     { name: 'AI Model News',         tier: 'primary',   keywords: ['model release', 'launch', 'GPT', 'Claude', 'Gemini', 'Llama', 'benchmark', 'context window'], url: rss('https://news.google.com/rss/search?q=(OpenAI+OR+Anthropic+OR+Google+AI+OR+"large+language+model"+OR+ChatGPT+OR+Claude+OR+"AI+model")+when:2d&hl=en-US&gl=US&ceid=US:en') },
     { name: 'VentureBeat AI',        tier: 'primary',   keywords: ['model', 'release', 'AI', 'benchmark', 'performance'], url: rss('https://venturebeat.com/category/ai/feed/') },
     { name: 'The Verge AI',          tier: 'primary',   keywords: ['model', 'AI', 'release', 'OpenAI', 'Google', 'Anthropic'], url: rss('https://www.theverge.com/rss/ai-artificial-intelligence/index.xml') },
@@ -1367,7 +1364,7 @@ const AI_FEEDS: Record<string, Feed[]> = {
   ],
 
   // ── Agentic AI: Agents & Frameworks ───────────────────────────────────────
-  agenticAI: [
+  'agentic-ai': [
     { name: 'Agentic AI News',       tier: 'primary',   keywords: ['AI agent', 'agentic', 'multi-agent', 'autonomous', 'tool use', 'planning'], url: rss('https://news.google.com/rss/search?q=("AI+agent"+OR+"agentic+AI"+OR+"multi-agent"+OR+"autonomous+AI")+when:3d&hl=en-US&gl=US&ceid=US:en') },
     { name: 'LangChain Blog',        tier: 'secondary', keywords: ['LangChain', 'agent', 'tool', 'RAG', 'chain', 'LangGraph'], url: rss('https://news.google.com/rss/search?q=LangChain+OR+LangGraph+(blog+OR+release+OR+update)+when:14d&hl=en-US&gl=US&ceid=US:en') },
     { name: 'SWE-bench',             tier: 'primary',   keywords: ['SWE-bench', 'coding agent', 'software engineering', 'benchmark', 'code generation'], url: rss('https://news.google.com/rss/search?q=SWE-bench+(result+OR+score+OR+agent+OR+benchmark)+when:14d&hl=en-US&gl=US&ceid=US:en') },
@@ -1381,7 +1378,7 @@ const AI_FEEDS: Record<string, Feed[]> = {
   ],
 
   // ── World Models: Video Generation & World Simulators ─────────────────────
-  worldModels: [
+  'world-models': [
     { name: 'World Model News',      tier: 'primary',   keywords: ['world model', 'video generation', 'simulation', 'physics', 'environment model'], url: rss('https://news.google.com/rss/search?q=("world+model"+OR+"video+generation"+OR+"video+AI")+when:5d&hl=en-US&gl=US&ceid=US:en') },
     { name: 'OpenAI Sora',           tier: 'primary',   keywords: ['Sora', 'video', 'generation', 'OpenAI', 'temporal'], url: rss('https://news.google.com/rss/search?q=OpenAI+Sora+(release+OR+update+OR+video)+when:14d&hl=en-US&gl=US&ceid=US:en') },
     { name: 'Runway ML',             tier: 'primary',   keywords: ['Runway', 'video', 'generation', 'Gen-3', 'creative AI'], url: rss('https://news.google.com/rss/search?q="Runway+ML"+OR+RunwayML+(release+OR+video+OR+Gen-3)+when:14d&hl=en-US&gl=US&ceid=US:en') },
@@ -1393,7 +1390,7 @@ const AI_FEEDS: Record<string, Feed[]> = {
   ],
 
   // ── Physical AI: Robotics & Embodied Intelligence ─────────────────────────
-  physicalAI: [
+  'physical-ai': [
     { name: 'Physical AI News',      tier: 'primary',   keywords: ['physical AI', 'humanoid robot', 'embodied AI', 'manipulation', 'locomotion'], url: rss('https://news.google.com/rss/search?q=("physical+AI"+OR+humanoid+robot+OR+"embodied+AI"+OR+robotics+AI)+when:3d&hl=en-US&gl=US&ceid=US:en') },
     { name: 'Figure AI',             tier: 'primary',   keywords: ['Figure', 'humanoid', 'dexterous', 'manipulation', 'OpenAI'], url: rss('https://news.google.com/rss/search?q="Figure+AI"+(robot+OR+humanoid+OR+demo)+when:14d&hl=en-US&gl=US&ceid=US:en') },
     { name: 'Physical Intelligence', tier: 'primary',   keywords: ['pi.ai', 'physical intelligence', 'dexterous', 'manipulation', 'π0'], url: rss('https://news.google.com/rss/search?q=("Physical+Intelligence"+OR+"pi.ai"+OR+π0)+robotics+when:14d&hl=en-US&gl=US&ceid=US:en') },
@@ -1407,7 +1404,7 @@ const AI_FEEDS: Record<string, Feed[]> = {
   ],
 
   // ── Venture Funding: AI VC & Deals ────────────────────────────────────────
-  ventureFunding: [
+  'funding-radar': [
     { name: 'AI Funding News',       tier: 'primary',   keywords: ['AI funding', 'Series A', 'Series B', 'venture', 'investment', 'raises'], url: rss('https://news.google.com/rss/search?q=(AI+startup+funding+OR+"artificial+intelligence"+raises+OR+AI+investment)+when:3d&hl=en-US&gl=US&ceid=US:en') },
     { name: 'TechCrunch Venture',    tier: 'primary',   keywords: ['funding', 'Series', 'seed', 'raises', 'valuation'], url: rss('https://techcrunch.com/category/venture/feed/') },
     { name: 'Crunchbase News',       tier: 'primary',   keywords: ['funding round', 'startup', 'AI', 'investment', 'unicorn'], url: rss('https://news.crunchbase.com/feed/') },
@@ -1422,7 +1419,7 @@ const AI_FEEDS: Record<string, Feed[]> = {
   ],
 
   // ── AI Infrastructure: Compute, Chips & Datacenters ───────────────────────
-  aiInfrastructure: [
+  'compute-infra': [
     { name: 'SemiAnalysis',          tier: 'primary',   keywords: ['semiconductor', 'GPU', 'chip', 'datacenter', 'NVIDIA', 'TSMC', 'supply chain'], url: rss('https://news.google.com/rss/search?q=site:semianalysis.com+when:7d&hl=en-US&gl=US&ceid=US:en') },
     { name: 'NVIDIA AI Chips',       tier: 'primary',   keywords: ['H100', 'H200', 'B200', 'Blackwell', 'NVLink', 'GPU', 'CUDA'], url: rss('https://news.google.com/rss/search?q=NVIDIA+(H100+OR+H200+OR+B200+OR+Blackwell+OR+AI+chip+OR+NVLink)+when:3d&hl=en-US&gl=US&ceid=US:en') },
     { name: 'AMD & Custom ASICs',    tier: 'primary',   keywords: ['AMD MI300', 'Gaudi', 'Groq', 'Cerebras', 'Tenstorrent', 'ASIC', 'TPU'], url: rss('https://news.google.com/rss/search?q=(AMD+MI300+OR+"Intel+Gaudi"+OR+Groq+OR+Cerebras+OR+Tenstorrent+OR+Trainium)+AI+chip+when:7d&hl=en-US&gl=US&ceid=US:en') },
@@ -1435,7 +1432,7 @@ const AI_FEEDS: Record<string, Feed[]> = {
   ],
 
   // ── AI Policy: Governance & Regulation ────────────────────────────────────
-  aiPolicy: [
+  'ai-policy': [
     { name: 'AI Policy News',        tier: 'primary',   keywords: ['AI regulation', 'AI policy', 'AI governance', 'AI law', 'AI legislation'], url: rss('https://news.google.com/rss/search?q=(AI+regulation+OR+"AI+policy"+OR+"AI+governance"+OR+"AI+law")+when:3d&hl=en-US&gl=US&ceid=US:en') },
     { name: 'EU AI Act Updates',     tier: 'primary',   keywords: ['EU AI Act', 'European AI', 'GDPR AI', 'Brussels', 'compliance'], url: rss('https://news.google.com/rss/search?q=("EU+AI+Act"+OR+"European+AI+regulation")+when:7d&hl=en-US&gl=US&ceid=US:en') },
     { name: 'US AI Policy',          tier: 'primary',   keywords: ['executive order', 'NIST', 'OSTP', 'AI safety', 'US Congress AI'], url: rss('https://news.google.com/rss/search?q=(US+"AI+policy"+OR+"AI+executive+order"+OR+NIST+AI+OR+Congress+AI)+when:7d&hl=en-US&gl=US&ceid=US:en') },
@@ -1451,7 +1448,7 @@ const AI_FEEDS: Record<string, Feed[]> = {
   ],
 
   // ── AI Safety: Alignment & Incident Research ──────────────────────────────
-  aiSafety: [
+  'safety-alignment': [
     { name: 'AI Safety News',        tier: 'primary',   keywords: ['AI safety', 'alignment', 'AI risk', 'dangerous capability', 'red team'], url: rss('https://news.google.com/rss/search?q=("AI+safety"+OR+"AI+alignment"+OR+"AI+risk")+research+when:3d&hl=en-US&gl=US&ceid=US:en') },
     { name: 'Alignment Forum',       tier: 'primary',   keywords: ['alignment', 'inner alignment', 'mesa-optimization', 'corrigibility', 'RLHF'], url: rss('https://www.alignmentforum.org/feed.xml') },
     { name: 'LessWrong AI',          tier: 'secondary', keywords: ['AI risk', 'AGI', 'alignment', 'Yudkowsky', 'cognitive science'], url: rss('https://news.google.com/rss/search?q=site:lesswrong.com+AI+alignment+OR+AI+safety+when:14d&hl=en-US&gl=US&ceid=US:en') },
@@ -1464,7 +1461,7 @@ const AI_FEEDS: Record<string, Feed[]> = {
   ],
 
   // ── Open Source AI: Ecosystem & Releases ──────────────────────────────────
-  openSource: [
+  'open-source-ai': [
     { name: 'Hugging Face Blog',     tier: 'primary',   keywords: ['open source', 'model release', 'fine-tuning', 'dataset', 'PEFT', 'LoRA'], url: rss('https://huggingface.co/blog/feed.xml') },
     { name: 'Open Weight Models',    tier: 'primary',   keywords: ['open weights', 'open source LLM', 'Llama', 'Mistral', 'Qwen', 'Falcon'], url: rss('https://news.google.com/rss/search?q=("open+source"+AI+model+OR+"open+weights"+OR+"open-source+LLM")+release+when:3d&hl=en-US&gl=US&ceid=US:en') },
     { name: 'Ollama / LM Studio',    tier: 'secondary', keywords: ['Ollama', 'LM Studio', 'local LLM', 'GGUF', 'llama.cpp', 'vLLM'], url: rss('https://news.google.com/rss/search?q=(Ollama+OR+LMStudio+OR+vLLM+OR+llama.cpp+OR+GGUF)+(release+OR+update)+when:7d&hl=en-US&gl=US&ceid=US:en') },
@@ -1477,7 +1474,7 @@ const AI_FEEDS: Record<string, Feed[]> = {
   ],
 
   // ── Enterprise AI: Adoption & Tools ───────────────────────────────────────
-  enterpriseAI: [
+  'enterprise-adoption': [
     { name: 'Enterprise AI News',    tier: 'primary',   keywords: ['enterprise AI', 'AI adoption', 'AI deployment', 'ROI', 'enterprise model'], url: rss('https://news.google.com/rss/search?q=("enterprise+AI"+OR+"AI+adoption"+OR+"AI+deployment")+when:3d&hl=en-US&gl=US&ceid=US:en') },
     { name: 'Databricks AI',         tier: 'primary',   keywords: ['DBRX', 'Databricks', 'data lakehouse', 'MosaicML', 'MLflow'], url: rss('https://news.google.com/rss/search?q=Databricks+(AI+OR+DBRX+OR+release)+when:14d&hl=en-US&gl=US&ceid=US:en') },
     { name: 'Snowflake AI',          tier: 'secondary', keywords: ['Snowflake', 'Arctic', 'Cortex', 'data cloud', 'AI'], url: rss('https://news.google.com/rss/search?q=Snowflake+(AI+OR+Arctic+OR+Cortex)+when:14d&hl=en-US&gl=US&ceid=US:en') },
@@ -1526,14 +1523,14 @@ export const SOURCE_REGION_MAP: Record<string, { labelKey: string; feedKeys: str
   techMedia: { labelKey: 'header.sourceRegionTechMedia', feedKeys: ['podcasts', 'layoffs', 'finance'] },
 
   // AI variant regions
-  aiResearch:       { labelKey: 'header.sourceRegionAiResearch',       feedKeys: ['research', 'architectures'] },
-  aiModels:         { labelKey: 'header.sourceRegionAiModels',          feedKeys: ['modelReleases'] },
-  aiAgents:         { labelKey: 'header.sourceRegionAiAgents',          feedKeys: ['agenticAI', 'worldModels'] },
-  aiPhysical:       { labelKey: 'header.sourceRegionAiPhysical',        feedKeys: ['physicalAI'] },
-  aiMarket:         { labelKey: 'header.sourceRegionAiMarket',          feedKeys: ['ventureFunding', 'enterpriseAI'] },
-  aiInfra:          { labelKey: 'header.sourceRegionAiInfra',           feedKeys: ['aiInfrastructure'] },
-  aiGovernance:     { labelKey: 'header.sourceRegionAiGovernance',      feedKeys: ['aiPolicy', 'aiSafety'] },
-  aiOpenSource:     { labelKey: 'header.sourceRegionAiOpenSource',      feedKeys: ['openSource'] },
+  aiResearch:       { labelKey: 'header.sourceRegionAiResearch',       feedKeys: ['research-feed'] },
+  aiModels:         { labelKey: 'header.sourceRegionAiModels',          feedKeys: ['model-releases'] },
+  aiAgents:         { labelKey: 'header.sourceRegionAiAgents',          feedKeys: ['agentic-ai', 'world-models'] },
+  aiPhysical:       { labelKey: 'header.sourceRegionAiPhysical',        feedKeys: ['physical-ai'] },
+  aiMarket:         { labelKey: 'header.sourceRegionAiMarket',          feedKeys: ['funding-radar', 'enterprise-adoption'] },
+  aiInfra:          { labelKey: 'header.sourceRegionAiInfra',           feedKeys: ['compute-infra'] },
+  aiGovernance:     { labelKey: 'header.sourceRegionAiGovernance',      feedKeys: ['ai-policy', 'safety-alignment'] },
+  aiOpenSource:     { labelKey: 'header.sourceRegionAiOpenSource',      feedKeys: ['open-source-ai'] },
 
   // Finance variant regions
   marketsAnalysis: { labelKey: 'header.sourceRegionMarkets', feedKeys: ['markets', 'analysis', 'ipo'] },
@@ -1601,18 +1598,17 @@ export const INTEL_SOURCES: Feed[] = [
 // Used by threat-classifier.ts to score relevance of items in each feed category.
 // ============================================
 export const AI_KEYWORD_FILTERS: Record<string, string[]> = {
-  research:         ['paper', 'arxiv', 'preprint', 'research', 'study', 'model', 'training', 'neural', 'deep learning', 'language model', 'benchmark', 'evaluation', 'dataset'],
-  architectures:    ['transformer', 'attention', 'SSM', 'Mamba', 'MoE', 'mixture of experts', 'diffusion', 'RLHF', 'RLAIF', 'multimodal', 'architecture', 'layer', 'parameter', 'context window'],
-  modelReleases:    ['release', 'launch', 'announce', 'model', 'GPT', 'Claude', 'Gemini', 'Llama', 'benchmark', 'score', 'leaderboard', 'API', 'preview', 'update', 'version'],
-  agenticAI:        ['agent', 'agentic', 'autonomous', 'tool use', 'multi-agent', 'planning', 'reasoning', 'SWE-bench', 'computer use', 'workflow', 'automation', 'task', 'LangChain', 'AutoGPT'],
-  worldModels:      ['world model', 'video generation', 'text-to-video', 'simulation', 'physics', 'Sora', 'Runway', 'Veo', 'Kling', 'diffusion video', 'image generation', 'generative video'],
-  physicalAI:       ['robot', 'robotics', 'humanoid', 'manipulation', 'locomotion', 'dexterous', 'embodied', 'sim-to-real', 'motor', 'actuator', 'bipedal', 'physical AI', 'deployment'],
-  ventureFunding:   ['funding', 'raises', 'Series A', 'Series B', 'Series C', 'seed round', 'investment', 'valuation', 'unicorn', 'venture capital', 'IPO', '$', 'million', 'billion'],
-  aiInfrastructure: ['GPU', 'H100', 'H200', 'B200', 'Blackwell', 'chip', 'semiconductor', 'NVIDIA', 'AMD', 'TPU', 'datacenter', 'compute', 'FLOP', 'training cluster', 'inference', 'TSMC'],
-  aiPolicy:         ['regulation', 'policy', 'governance', 'law', 'legislation', 'executive order', 'EU AI Act', 'NIST', 'compliance', 'safety standard', 'ban', 'restriction', 'congress', 'parliament'],
-  aiSafety:         ['safety', 'alignment', 'risk', 'dangerous capability', 'red team', 'misuse', 'incident', 'failure', 'bias', 'hallucination', 'corrigibility', 'interpretability', 'oversight'],
-  openSource:       ['open source', 'open weight', 'open model', 'MIT license', 'Apache', 'release', 'GitHub', 'download', 'weights', 'fine-tuning', 'LoRA', 'GGUF', 'Hugging Face'],
-  enterpriseAI:     ['enterprise', 'deployment', 'adoption', 'ROI', 'productivity', 'copilot', 'workspace', 'B2B', 'SaaS', 'integration', 'platform', 'customer', 'workflow', 'automation'],
+  'research-feed':      ['paper', 'arxiv', 'preprint', 'research', 'study', 'model', 'training', 'neural', 'deep learning', 'language model', 'benchmark', 'evaluation', 'dataset', 'transformer', 'attention', 'SSM', 'Mamba', 'MoE', 'mixture of experts', 'diffusion', 'RLHF', 'RLAIF', 'multimodal', 'architecture', 'layer', 'parameter', 'context window'],
+  'model-releases':     ['release', 'launch', 'announce', 'model', 'GPT', 'Claude', 'Gemini', 'Llama', 'benchmark', 'score', 'leaderboard', 'API', 'preview', 'update', 'version'],
+  'agentic-ai':         ['agent', 'agentic', 'autonomous', 'tool use', 'multi-agent', 'planning', 'reasoning', 'SWE-bench', 'computer use', 'workflow', 'automation', 'task', 'LangChain', 'AutoGPT'],
+  'world-models':       ['world model', 'video generation', 'text-to-video', 'simulation', 'physics', 'Sora', 'Runway', 'Veo', 'Kling', 'diffusion video', 'image generation', 'generative video'],
+  'physical-ai':        ['robot', 'robotics', 'humanoid', 'manipulation', 'locomotion', 'dexterous', 'embodied', 'sim-to-real', 'motor', 'actuator', 'bipedal', 'physical AI', 'deployment'],
+  'funding-radar':      ['funding', 'raises', 'Series A', 'Series B', 'Series C', 'seed round', 'investment', 'valuation', 'unicorn', 'venture capital', 'IPO', '$', 'million', 'billion'],
+  'compute-infra':      ['GPU', 'H100', 'H200', 'B200', 'Blackwell', 'chip', 'semiconductor', 'NVIDIA', 'AMD', 'TPU', 'datacenter', 'compute', 'FLOP', 'training cluster', 'inference', 'TSMC'],
+  'ai-policy':          ['regulation', 'policy', 'governance', 'law', 'legislation', 'executive order', 'EU AI Act', 'NIST', 'compliance', 'safety standard', 'ban', 'restriction', 'congress', 'parliament'],
+  'safety-alignment':   ['safety', 'alignment', 'risk', 'dangerous capability', 'red team', 'misuse', 'incident', 'failure', 'bias', 'hallucination', 'corrigibility', 'interpretability', 'oversight'],
+  'open-source-ai':     ['open source', 'open weight', 'open model', 'MIT license', 'Apache', 'release', 'GitHub', 'download', 'weights', 'fine-tuning', 'LoRA', 'GGUF', 'Hugging Face'],
+  'enterprise-adoption':['enterprise', 'deployment', 'adoption', 'ROI', 'productivity', 'copilot', 'workspace', 'B2B', 'SaaS', 'integration', 'platform', 'customer', 'workflow', 'automation'],
 };
 
 // Default-enabled sources per panel (Tier 1+2 priority, ≥8 per panel)
@@ -1633,18 +1629,17 @@ export const DEFAULT_ENABLED_SOURCES: Record<string, string[]> = {
   crisis: ['CrisisWatch', 'IAEA', 'WHO', 'UNHCR'],
   energy: ['Oil & Gas', 'Nuclear Energy', 'Reuters Energy', 'Mining & Resources'],
   // AI variant panel defaults (primary tier sources only)
-  research:         ['ArXiv AI', 'ArXiv ML', 'ArXiv CL', 'ArXiv CV', 'ArXiv Robotics', 'Google DeepMind Blog', 'OpenAI Research', 'Anthropic Research', 'Hugging Face Blog'],
-  architectures:    ['ArXiv ML', 'Distill.pub', 'NeurIPS Papers', 'The Gradient', 'Architecture Breakthroughs'],
-  modelReleases:    ['AI Model News', 'VentureBeat AI', 'The Verge AI', 'MIT Tech Review AI', 'LMSYS Chatbot Arena', 'OpenAI News', 'Anthropic News', 'Google AI News'],
-  agenticAI:        ['Agentic AI News', 'SWE-bench', 'OpenAI Agents', 'Anthropic Agents', 'Google Agents', 'Agent Benchmarks'],
-  worldModels:      ['World Model News', 'OpenAI Sora', 'Runway ML', 'DeepMind Genie', 'World Model Research'],
-  physicalAI:       ['Physical AI News', 'Figure AI', 'Physical Intelligence', 'Boston Dynamics', 'NVIDIA Isaac/Cosmos', 'IEEE Spectrum Robotics'],
-  ventureFunding:   ['AI Funding News', 'TechCrunch Venture', 'Crunchbase AI', 'a16z AI', 'Sequoia AI', 'AI Mega Rounds'],
-  aiInfrastructure: ['SemiAnalysis', 'NVIDIA AI Chips', 'AMD & Custom ASICs', 'Cloud AI Infrastructure', 'AI Datacenter Projects', 'Semiconductor Fabs'],
-  aiPolicy:         ['AI Policy News', 'EU AI Act Updates', 'US AI Policy', 'UK AI Safety Institute', 'China AI Regulation', 'AI Export Controls', 'Stanford HAI'],
-  aiSafety:         ['AI Safety News', 'Alignment Forum', 'Safety Orgs Research', 'Anthropic Safety', 'DeepMind Safety', 'AI Incidents Database'],
-  openSource:       ['Hugging Face Blog', 'Open Weight Models', 'PyTorch Blog', 'Meta Open Source AI', 'GitHub AI Trending'],
-  enterpriseAI:     ['Enterprise AI News', 'Databricks AI', 'Microsoft Copilot', 'Google Workspace AI'],
+  'research-feed':      ['ArXiv AI', 'ArXiv ML', 'ArXiv CL', 'ArXiv CV', 'ArXiv Robotics', 'Google DeepMind Blog', 'OpenAI Research', 'Anthropic Research', 'Hugging Face Blog', 'ArXiv Architectures', 'Distill.pub', 'NeurIPS Papers'],
+  'model-releases':     ['AI Model News', 'VentureBeat AI', 'The Verge AI', 'MIT Tech Review AI', 'LMSYS Chatbot Arena', 'OpenAI News', 'Anthropic News', 'Google AI News'],
+  'agentic-ai':         ['Agentic AI News', 'SWE-bench', 'OpenAI Agents', 'Anthropic Agents', 'Google Agents', 'Agent Benchmarks'],
+  'world-models':       ['World Model News', 'OpenAI Sora', 'Runway ML', 'DeepMind Genie', 'World Model Research'],
+  'physical-ai':        ['Physical AI News', 'Figure AI', 'Physical Intelligence', 'Boston Dynamics', 'NVIDIA Isaac/Cosmos', 'IEEE Spectrum Robotics'],
+  'funding-radar':      ['AI Funding News', 'TechCrunch Venture', 'Crunchbase AI', 'a16z AI', 'Sequoia AI', 'AI Mega Rounds'],
+  'compute-infra':      ['SemiAnalysis', 'NVIDIA AI Chips', 'AMD & Custom ASICs', 'Cloud AI Infrastructure', 'AI Datacenter Projects', 'Semiconductor Fabs'],
+  'ai-policy':          ['AI Policy News', 'EU AI Act Updates', 'US AI Policy', 'UK AI Safety Institute', 'China AI Regulation', 'AI Export Controls', 'Stanford HAI'],
+  'safety-alignment':   ['AI Safety News', 'Alignment Forum', 'Safety Orgs Research', 'Anthropic Safety', 'DeepMind Safety', 'AI Incidents Database'],
+  'open-source-ai':     ['Hugging Face Blog', 'Open Weight Models', 'PyTorch Blog', 'Meta Open Source AI', 'GitHub AI Trending'],
+  'enterprise-adoption':['Enterprise AI News', 'Databricks AI', 'Microsoft Copilot', 'Google Workspace AI'],
 };
 
 export const DEFAULT_ENABLED_INTEL: string[] = [

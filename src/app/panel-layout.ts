@@ -979,6 +979,35 @@ export class PanelLayoutManager implements AppModule {
       );
     }
 
+    // AI variant panels (lazy-loaded — only relevant for ai variant)
+    if (SITE_VARIANT === 'ai') {
+      this.lazyPanel('lab-activity', () =>
+        import('@/components/AILabActivityPanel').then(m => new m.AILabActivityPanel()),
+      );
+
+      this.lazyPanel('ai-correlation', () =>
+        import('@/components/AICorrelationPanel').then(m => new m.AICorrelationPanel()),
+      );
+
+      this.lazyPanel('ai-insights', () =>
+        import('@/components/AIInsightsPanel').then(m => new m.AIInsightsPanel()),
+      );
+
+      this.lazyPanel('capability-curve', () =>
+        import('@/components/AICapabilityCurvePanel').then(m => new m.AICapabilityCurvePanel()),
+      );
+
+      this.lazyPanel('deduction-ai', () =>
+        import('@/components/DeductionPanel').then(({ DeductionPanel }) => new DeductionPanel(() => this.ctx.allNews)),
+      );
+
+      this.lazyPanel('ai-forecast', () =>
+        import('@/components/ForecastPanel').then(m => new m.ForecastPanel()),
+        undefined,
+        (!_wmKeyPresent && !isProUser()) ? ['AI capability forecasts from benchmark trends', 'Lab release cycle predictions', 'Funding and policy cascade projections'] : undefined,
+      );
+    }
+
     if (isProUser()) {
       for (const spec of loadWidgets()) {
         const panel = new CustomWidgetPanel(spec);
