@@ -493,30 +493,51 @@ export class DataLoaderManager implements AppModule {
     }
     if (this.ctx.mapLayers.natural) tasks.push({ name: 'natural', task: runGuarded('natural', () => this.loadNatural()) });
     if (SITE_VARIANT !== 'happy' && this.ctx.mapLayers.weather) tasks.push({ name: 'weather', task: runGuarded('weather', () => this.loadWeatherAlerts()) });
-    if (SITE_VARIANT !== 'happy' && !isDesktopRuntime() && this.ctx.mapLayers.ais) tasks.push({ name: 'ais', task: runGuarded('ais', () => this.loadAisSignals()) });
+    // AIS (maritime) — geopolitical only; skip for ai variant
+    if (SITE_VARIANT !== 'happy' && SITE_VARIANT !== 'ai' && !isDesktopRuntime() && this.ctx.mapLayers.ais) tasks.push({ name: 'ais', task: runGuarded('ais', () => this.loadAisSignals()) });
     if (SITE_VARIANT !== 'happy' && this.ctx.mapLayers.cables) tasks.push({ name: 'cables', task: runGuarded('cables', () => this.loadCableActivity()) });
     if (SITE_VARIANT !== 'happy' && this.ctx.mapLayers.cables) tasks.push({ name: 'cableHealth', task: runGuarded('cableHealth', () => this.loadCableHealth()) });
     if (SITE_VARIANT !== 'happy' && this.ctx.mapLayers.flights) tasks.push({ name: 'flights', task: runGuarded('flights', () => this.loadFlightDelays()) });
     if (SITE_VARIANT !== 'happy' && CYBER_LAYER_ENABLED && this.ctx.mapLayers.cyberThreats) tasks.push({ name: 'cyberThreats', task: runGuarded('cyberThreats', () => this.loadCyberThreats()) });
-    if (SITE_VARIANT !== 'happy' && !isDesktopRuntime() && (this.ctx.mapLayers.iranAttacks || shouldLoadAny(['cii', 'strategic-risk', 'strategic-posture']))) tasks.push({ name: 'iranAttacks', task: runGuarded('iranAttacks', () => this.loadIranEvents()) });
-    if (SITE_VARIANT !== 'happy' && (this.ctx.mapLayers.techEvents || SITE_VARIANT === 'tech')) tasks.push({ name: 'techEvents', task: runGuarded('techEvents', () => this.loadTechEvents()) });
+    // Iran events — geopolitical only; skip for ai variant
+    if (SITE_VARIANT !== 'happy' && SITE_VARIANT !== 'ai' && !isDesktopRuntime() && (this.ctx.mapLayers.iranAttacks || shouldLoadAny(['cii', 'strategic-risk', 'strategic-posture']))) tasks.push({ name: 'iranAttacks', task: runGuarded('iranAttacks', () => this.loadIranEvents()) });
+    if (SITE_VARIANT !== 'happy' && (this.ctx.mapLayers.techEvents || SITE_VARIANT === 'tech' || SITE_VARIANT === 'ai')) tasks.push({ name: 'techEvents', task: runGuarded('techEvents', () => this.loadTechEvents()) });
     if (SITE_VARIANT !== 'happy' && this.ctx.mapLayers.satellites && this.ctx.map?.isGlobeMode?.()) tasks.push({ name: 'satellites', task: runGuarded('satellites', () => this.loadSatellites()) });
     if (SITE_VARIANT !== 'happy' && this.ctx.mapLayers.webcams) tasks.push({ name: 'webcams', task: runGuarded('webcams', () => this.loadWebcams()) });
-    if (SITE_VARIANT !== 'happy' && (shouldLoad('sanctions-pressure') || this.ctx.mapLayers.sanctions)) {
+    // Sanctions — geopolitical only; skip for ai variant
+    if (SITE_VARIANT !== 'happy' && SITE_VARIANT !== 'ai' && (shouldLoad('sanctions-pressure') || this.ctx.mapLayers.sanctions)) {
       tasks.push({ name: 'sanctions', task: runGuarded('sanctions', () => this.loadSanctionsPressure()) });
     }
-    if (SITE_VARIANT !== 'happy' && (shouldLoad('radiation-watch') || this.ctx.mapLayers.radiationWatch)) {
+    // Radiation watch — geopolitical only; skip for ai variant
+    if (SITE_VARIANT !== 'happy' && SITE_VARIANT !== 'ai' && (shouldLoad('radiation-watch') || this.ctx.mapLayers.radiationWatch)) {
       tasks.push({ name: 'radiation', task: runGuarded('radiation', () => this.loadRadiationWatch()) });
     }
 
     if (SITE_VARIANT !== 'happy') {
       tasks.push({ name: 'techReadiness', task: runGuarded('techReadiness', () => (this.ctx.panels['tech-readiness'] as TechReadinessPanel)?.refresh()) });
     }
-    if (SITE_VARIANT !== 'happy' && shouldLoad('thermal-escalation')) {
+    // Thermal escalation — geopolitical only; skip for ai variant
+    if (SITE_VARIANT !== 'happy' && SITE_VARIANT !== 'ai' && shouldLoad('thermal-escalation')) {
       tasks.push({ name: 'thermalEscalation', task: runGuarded('thermalEscalation', () => this.loadThermalEscalations()) });
     }
     if (SITE_VARIANT !== 'happy' && shouldLoad('cross-source-signals')) {
       tasks.push({ name: 'crossSourceSignals', task: runGuarded('crossSourceSignals', () => this.loadCrossSourceSignals()) });
+    }
+
+    // AI variant: load AI-specific data sources (fast-tier first for < 3s bootstrap)
+    if (SITE_VARIANT === 'ai') {
+      // Fast-tier: research papers + model releases (prepended to be in first batch)
+      tasks.unshift(
+        { name: 'aiArxiv', task: runGuarded('aiArxiv', () => this.loadAIArxivPapers()) },
+        { name: 'aiHFModels', task: runGuarded('aiHFModels', () => this.loadAIHuggingFaceModels()) },
+      );
+      // Standard-tier: funding, benchmarks, labs, policy, safety, prediction markets
+      if (shouldLoad('funding-radar')) tasks.push({ name: 'aiFunding', task: runGuarded('aiFunding', () => this.loadAIFunding()) });
+      if (shouldLoad('capability-curve')) tasks.push({ name: 'aiBenchmarks', task: runGuarded('aiBenchmarks', () => this.loadAIBenchmarks()) });
+      if (shouldLoad('lab-activity')) tasks.push({ name: 'aiLabs', task: runGuarded('aiLabs', () => this.loadAILabs()) });
+      if (shouldLoad('ai-policy')) tasks.push({ name: 'aiPolicy', task: runGuarded('aiPolicy', () => this.loadAIPolicy()) });
+      if (shouldLoad('safety-alignment')) tasks.push({ name: 'aiSafety', task: runGuarded('aiSafety', () => this.loadAISafetyIncidents()) });
+      if (shouldLoad('ai-forecast')) tasks.push({ name: 'aiPredictions', task: runGuarded('aiPredictions', () => this.loadAIPredictionMarkets()) });
     }
 
     // Stagger startup: run tasks in small batches to avoid hammering upstreams
@@ -2899,6 +2920,152 @@ export class DataLoaderManager implements AppModule {
     } catch (error) {
       console.error('[App] Cross-source signals fetch failed:', error);
       this.callPanel('cross-source-signals', 'showFetchError');
+    }
+  }
+
+  // ─── AI Variant Data Loaders ────────────────────────────────────────────────
+
+  async loadAIArxivPapers(): Promise<void> {
+    try {
+      const resp = await fetch(toApiUrl('/api/huggingface/v1/models'), {
+        cache: 'no-cache',
+        signal: AbortSignal.timeout(8_000),
+      });
+      // Primary AI data: fetch ArXiv papers for all 6 AI categories from Redis via the
+      // research endpoint. The existing ResearchServiceClient covers cs.AI; additional
+      // categories (cs.LG, cs.CL, cs.CV, cs.RO, stat.ML) are seeded by seed-arxiv-ai.mjs
+      // into ai-arxiv:papers:v1:<category> keys, read directly by the research-feed panel.
+      const client = new ResearchServiceClient(getRpcBaseUrl(), { fetch: (...args: Parameters<typeof fetch>) => globalThis.fetch(...args) });
+      const categories = ['cs.AI', 'cs.LG', 'cs.CL', 'cs.CV', 'cs.RO', 'stat.ML'];
+      const papers = await Promise.allSettled(
+        categories.map(cat => client.listArxivPapers({ category: cat, pageSize: 50 }))
+      );
+      const allPapers = papers
+        .filter(r => r.status === 'fulfilled')
+        .flatMap(r => (r as PromiseFulfilledResult<{ papers: unknown[] }>).value.papers ?? []);
+      this.callPanel('research-feed', 'setData', { papers: allPapers });
+      if (allPapers.length > 0) dataFreshness.recordUpdate('research' as DataSourceId, allPapers.length);
+      void resp; // suppress unused variable warning
+    } catch (error) {
+      console.error('[App] AI ArXiv papers fetch failed:', error);
+    }
+  }
+
+  async loadAIHuggingFaceModels(): Promise<void> {
+    try {
+      const [modelsResp, spacesResp] = await Promise.allSettled([
+        fetch(toApiUrl('/api/huggingface/v1/models'), { cache: 'no-cache', signal: AbortSignal.timeout(6_000) }),
+        fetch(toApiUrl('/api/huggingface/v1/spaces'), { cache: 'no-cache', signal: AbortSignal.timeout(6_000) }),
+      ]);
+      const models = modelsResp.status === 'fulfilled' && modelsResp.value.ok
+        ? await modelsResp.value.json()
+        : { models: [] };
+      const spaces = spacesResp.status === 'fulfilled' && spacesResp.value.ok
+        ? await spacesResp.value.json()
+        : { spaces: [] };
+      this.callPanel('model-releases', 'setData', { models: models.models ?? [], spaces: spaces.spaces ?? [] });
+      if ((models.models ?? []).length > 0) dataFreshness.recordUpdate('research' as DataSourceId, models.models.length);
+    } catch (error) {
+      console.error('[App] HuggingFace models fetch failed:', error);
+    }
+  }
+
+  async loadAIFunding(): Promise<void> {
+    try {
+      const resp = await fetch(toApiUrl('/api/ai-funding/v1/rounds'), {
+        cache: 'no-cache',
+        signal: AbortSignal.timeout(6_000),
+      });
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const data = await resp.json();
+      this.callPanel('funding-radar', 'setData', data);
+      if ((data.rounds ?? []).length > 0) dataFreshness.recordUpdate('economic' as DataSourceId, data.rounds.length);
+    } catch (error) {
+      console.error('[App] AI funding fetch failed:', error);
+    }
+  }
+
+  async loadAIBenchmarks(): Promise<void> {
+    try {
+      const [leaderboardsResp, alertsResp] = await Promise.allSettled([
+        fetch(toApiUrl('/api/ai-benchmarks/v1/leaderboards'), { cache: 'no-cache', signal: AbortSignal.timeout(6_000) }),
+        fetch(toApiUrl('/api/ai-benchmarks/v1/sota-alerts'), { cache: 'no-cache', signal: AbortSignal.timeout(6_000) }),
+      ]);
+      const leaderboards = leaderboardsResp.status === 'fulfilled' && leaderboardsResp.value.ok
+        ? await leaderboardsResp.value.json()
+        : { leaderboards: [] };
+      const alerts = alertsResp.status === 'fulfilled' && alertsResp.value.ok
+        ? await alertsResp.value.json()
+        : { alerts: [] };
+      this.callPanel('capability-curve', 'setData', { ...leaderboards, sotaAlerts: alerts.alerts ?? [] });
+    } catch (error) {
+      console.error('[App] AI benchmarks fetch failed:', error);
+    }
+  }
+
+  async loadAILabs(): Promise<void> {
+    try {
+      const resp = await fetch(toApiUrl('/api/ai-labs/v1/profiles'), {
+        cache: 'no-cache',
+        signal: AbortSignal.timeout(6_000),
+      });
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const data = await resp.json();
+      this.callPanel('lab-activity', 'setData', data);
+    } catch (error) {
+      console.error('[App] AI labs fetch failed:', error);
+    }
+  }
+
+  async loadAIPolicy(): Promise<void> {
+    try {
+      const resp = await fetch(toApiUrl('/api/ai-safety/v1/incidents'), {
+        cache: 'no-cache',
+        signal: AbortSignal.timeout(6_000),
+      });
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const policyData = await fetch(toApiUrl('/api/ai-safety/v1/vulnerabilities'), {
+        cache: 'no-cache',
+        signal: AbortSignal.timeout(6_000),
+      });
+      const incidents = resp.ok ? await resp.json() : { incidents: [] };
+      const policy = policyData.ok ? await policyData.json() : { vulnerabilities: [] };
+      this.callPanel('ai-policy', 'setData', { ...incidents, ...policy });
+    } catch (error) {
+      console.error('[App] AI policy fetch failed:', error);
+    }
+  }
+
+  async loadAISafetyIncidents(): Promise<void> {
+    try {
+      const resp = await fetch(toApiUrl('/api/ai-safety/v1/incidents'), {
+        cache: 'no-cache',
+        signal: AbortSignal.timeout(6_000),
+      });
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const data = await resp.json();
+      this.callPanel('safety-alignment', 'setData', data);
+      if ((data.incidents ?? []).length > 0) dataFreshness.recordUpdate('intelligence' as DataSourceId, data.incidents.length);
+    } catch (error) {
+      console.error('[App] AI safety incidents fetch failed:', error);
+    }
+  }
+
+  async loadAIPredictionMarkets(): Promise<void> {
+    try {
+      // AI prediction markets are seeded into prediction:ai-markets:v1
+      // The existing predictions fetch covers polymarket; the AI-specific endpoint
+      // unifies Metaculus + Manifold AI markets not covered by the general prediction feed.
+      const resp = await fetch(toApiUrl('/api/prediction/v1/list-prediction-markets'), {
+        cache: 'no-cache',
+        signal: AbortSignal.timeout(6_000),
+      });
+      if (resp.ok) {
+        const data = await resp.json();
+        this.callPanel('ai-forecast', 'setData', data);
+      }
+    } catch (error) {
+      console.error('[App] AI prediction markets fetch failed:', error);
     }
   }
 }
