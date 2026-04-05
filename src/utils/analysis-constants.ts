@@ -40,6 +40,10 @@ export const TOPIC_KEYWORDS = [
   'iran', 'israel', 'ukraine', 'russia', 'china', 'taiwan', 'oil', 'crypto',
   'fed', 'interest', 'inflation', 'recession', 'war', 'sanctions', 'tariff',
   'ai', 'tech', 'layoff', 'trump', 'biden', 'election',
+  // AI domain topics
+  'llm', 'gpt', 'agi', 'moe', 'rlhf', 'rlaif', 'openai', 'anthropic', 'deepmind',
+  'gemini', 'claude', 'llama', 'mistral', 'benchmark', 'alignment', 'sora',
+  'robotics', 'transformer', 'diffusion', 'multimodal', 'agentic',
 ];
 
 export const SUPPRESSED_TRENDING_TERMS = new Set<string>([
@@ -165,7 +169,22 @@ export const TOPIC_MAPPINGS: Record<string, string[]> = {
   'fed': ['fed', 'interest', 'inflation', 'recession'],
   'bitcoin': ['crypto', 'bitcoin'],
   'recession': ['recession', 'fed', 'inflation'],
+  // AI domain topic clusters
+  'openai': ['openai', 'gpt', 'chatgpt', 'sora', 'llm', 'agi'],
+  'anthropic': ['anthropic', 'claude', 'alignment', 'safety'],
+  'deepmind': ['deepmind', 'gemini', 'google', 'alphafold'],
+  'llm': ['llm', 'gpt', 'claude', 'gemini', 'llama', 'mistral', 'model'],
+  'benchmark': ['benchmark', 'mmlu', 'humaneval', 'swe-bench', 'sota', 'leaderboard'],
+  'alignment': ['alignment', 'safety', 'rlhf', 'rlaif', 'redteam', 'jailbreak'],
+  'robotics': ['robotics', 'physical', 'humanoid', 'manipulation', 'embodied'],
+  'funding': ['funding', 'raises', 'valuation', 'venture', 'seed', 'series'],
 };
+
+// Short AI acronyms (≤3 chars) that must be preserved by the tokenizer.
+// The default filter removes words with length ≤ 2; these are exceptions.
+const AI_ACRONYM_PRESERVES = new Set([
+  'ai', 'ml', 'rl', 'nlp', 'cv', 'llm', 'moe', 'agi', 'gpt', 'vit',
+]);
 
 // Pure utility functions that can be shared
 export function tokenize(text: string): Set<string> {
@@ -173,7 +192,7 @@ export function tokenize(text: string): Set<string> {
     .toLowerCase()
     .replace(/[^a-z0-9\s]/g, ' ')
     .split(/\s+/)
-    .filter(w => w.length > 2 && !STOP_WORDS.has(w));
+    .filter(w => (w.length > 2 || AI_ACRONYM_PRESERVES.has(w)) && !STOP_WORDS.has(w));
   return new Set(words);
 }
 

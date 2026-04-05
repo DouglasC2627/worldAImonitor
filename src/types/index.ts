@@ -83,7 +83,11 @@ export type ThreatLevel = 'critical' | 'high' | 'medium' | 'low' | 'info';
 export type EventCategory =
   | 'conflict' | 'protest' | 'disaster' | 'diplomatic' | 'economic'
   | 'terrorism' | 'cyber' | 'health' | 'environmental' | 'military'
-  | 'crime' | 'infrastructure' | 'tech' | 'general';
+  | 'crime' | 'infrastructure' | 'tech' | 'general'
+  // AI domain categories
+  | 'model_release' | 'architecture_paper' | 'funding_round' | 'regulatory_action'
+  | 'safety_incident' | 'benchmark_record' | 'hardware_launch' | 'open_source_release'
+  | 'agent_capability' | 'physical_ai' | 'world_model' | 'enterprise_adoption';
 
 export interface ThreatClassification {
   level: ThreatLevel;

@@ -520,6 +520,79 @@ export function detectTriangulation(
  * Analyze correlations between news, predictions, and markets.
  * Pure function - state management (snapshots, deduplication) handled by caller.
  */
+/**
+ * Detects when an AI story is progressing through the typical hype cycle:
+ *   research paper → product launch → funding round → media saturation
+ *
+ * When ≥ 2 of these signal types co-occur for the same entity within a 48h
+ * window, emits an 'ai_cycle_amplification' signal.
+ */
+export function detectAICycleAmplification(
+  events: ClusteredEventCore[],
+  newsTopics: Map<string, number>,
+  isRecentDuplicate: (key: string) => boolean,
+  markSignalSeen: (key: string) => void,
+): CorrelationSignalCore[] {
+  const signals: CorrelationSignalCore[] = [];
+
+  const PAPER_KEYWORDS = ['arxiv', 'preprint', 'paper', 'research', 'study', 'findings', 'benchmark'];
+  const PRODUCT_KEYWORDS = ['launches', 'releases', 'announces', 'unveils', 'introduces', 'api', 'model'];
+  const FUNDING_KEYWORDS = ['raises', 'funding', 'series', 'million', 'billion', 'investment', 'valued'];
+  const MEDIA_THRESHOLD = 3; // minimum clusters to count as media saturation
+
+  // Identify which AI entity-topics are active
+  const activeAITopics: string[] = [];
+  for (const [topic, velocity] of newsTopics) {
+    if (velocity >= 2 && ['openai', 'anthropic', 'deepmind', 'llm', 'gpt', 'gemini', 'claude', 'llama', 'mistral'].includes(topic)) {
+      activeAITopics.push(topic);
+    }
+  }
+
+  for (const topic of activeAITopics) {
+    const topicEvents = events.filter(e => {
+      const text = (e.title + ' ' + (e.allItems?.[0]?.title ?? '')).toLowerCase();
+      return text.includes(topic);
+    });
+
+    if (topicEvents.length < 2) continue;
+
+    const hasPaper = topicEvents.some(e => PAPER_KEYWORDS.some(k => e.title.toLowerCase().includes(k)));
+    const hasProduct = topicEvents.some(e => PRODUCT_KEYWORDS.some(k => e.title.toLowerCase().includes(k)));
+    const hasFunding = topicEvents.some(e => FUNDING_KEYWORDS.some(k => e.title.toLowerCase().includes(k)));
+    const mediaCount = topicEvents.length;
+
+    const signalCount = [hasPaper, hasProduct, hasFunding].filter(Boolean).length;
+    if (signalCount < 2 || mediaCount < MEDIA_THRESHOLD) continue;
+
+    const dedupeKey = generateDedupeKey('ai_cycle_amplification', topic, signalCount);
+    if (isRecentDuplicate(dedupeKey)) continue;
+    markSignalSeen(dedupeKey);
+
+    const stages: string[] = [];
+    if (hasPaper) stages.push('research');
+    if (hasProduct) stages.push('product');
+    if (hasFunding) stages.push('funding');
+    if (mediaCount >= MEDIA_THRESHOLD) stages.push('media');
+
+    signals.push({
+      id: generateSignalId(),
+      type: 'ai_cycle_amplification',
+      title: 'AI Story Cycle Detected',
+      description: `"${topic}" is progressing through: ${stages.join(' → ')} (${mediaCount} sources)`,
+      confidence: Math.min(0.9, 0.5 + signalCount * 0.15 + (mediaCount - MEDIA_THRESHOLD) * 0.05),
+      timestamp: new Date(),
+      data: {
+        newsVelocity: mediaCount,
+        correlatedEntities: [topic],
+        correlatedNews: topicEvents.slice(0, 5).map(e => e.clusterId),
+        explanation: `${stages.length}-stage AI story amplification: ${stages.join(' → ')}`,
+      },
+    });
+  }
+
+  return signals;
+}
+
 export function analyzeCorrelationsCore(
   events: ClusteredEventCore[],
   predictions: PredictionMarketCore[],
@@ -725,6 +798,9 @@ export function analyzeCorrelationsCore(
   signals.push(...detectConvergence(events, getSourceType, isRecentDuplicate, markSignalSeen));
   signals.push(...detectTriangulation(events, getSourceType, isRecentDuplicate, markSignalSeen));
   signals.push(...pipelineFlowSignals);
+
+  // AI domain: detect paper → product → funding → media cycle amplification
+  signals.push(...detectAICycleAmplification(events, newsTopics, isRecentDuplicate, markSignalSeen));
 
   // Dedupe by type to avoid spam
   const uniqueSignals = signals.filter((sig, idx) =>
