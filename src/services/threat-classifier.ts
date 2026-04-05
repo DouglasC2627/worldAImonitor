@@ -265,6 +265,124 @@ const TECH_LOW_KEYWORDS: KeywordMap = {
   'open source': 'tech',
 };
 
+// ─── AI Domain Keyword Sets ───────────────────────────────────────────────────
+
+const AI_CRITICAL_KEYWORDS: KeywordMap = {
+  'agi achieved': 'benchmark_record',
+  'agi breakthrough': 'benchmark_record',
+  'superintelligence': 'benchmark_record',
+  'ai weapons system': 'safety_incident',
+  'autonomous weapons': 'safety_incident',
+  'ai catastrophe': 'safety_incident',
+  'rogue ai': 'safety_incident',
+  'ai caused death': 'safety_incident',
+  'ai system failure': 'safety_incident',
+  'critical ai vulnerability': 'safety_incident',
+};
+
+const AI_HIGH_KEYWORDS: KeywordMap = {
+  'model release': 'model_release',
+  'releases model': 'model_release',
+  'launched model': 'model_release',
+  'new model': 'model_release',
+  'gpt-5': 'model_release',
+  'gpt5': 'model_release',
+  'claude 4': 'model_release',
+  'gemini ultra': 'model_release',
+  'llama 4': 'model_release',
+  'state of the art': 'benchmark_record',
+  'new sota': 'benchmark_record',
+  'beats gpt': 'benchmark_record',
+  'surpasses gpt': 'benchmark_record',
+  'new record': 'benchmark_record',
+  'swe-bench': 'benchmark_record',
+  'humaneval': 'benchmark_record',
+  'ai safety incident': 'safety_incident',
+  'ai jailbreak': 'safety_incident',
+  'ai bias': 'safety_incident',
+  'misalignment': 'safety_incident',
+  'alignment failure': 'safety_incident',
+  'ai regulation': 'regulatory_action',
+  'ai ban': 'regulatory_action',
+  'ai act': 'regulatory_action',
+  'executive order ai': 'regulatory_action',
+  'ai export controls': 'regulatory_action',
+  'chip ban': 'hardware_launch',
+  'h100': 'hardware_launch',
+  'h200': 'hardware_launch',
+  'b200': 'hardware_launch',
+  'nvidia blackwell': 'hardware_launch',
+  'tpu': 'hardware_launch',
+  'series b': 'funding_round',
+  'series c': 'funding_round',
+  'billion funding': 'funding_round',
+  'raises billion': 'funding_round',
+  '$1b': 'funding_round',
+  '$2b': 'funding_round',
+  '$5b': 'funding_round',
+};
+
+const AI_MEDIUM_KEYWORDS: KeywordMap = {
+  'transformer architecture': 'architecture_paper',
+  'mixture of experts': 'architecture_paper',
+  'moe model': 'architecture_paper',
+  'diffusion model': 'architecture_paper',
+  'multimodal': 'architecture_paper',
+  'large language model': 'architecture_paper',
+  'llm': 'architecture_paper',
+  'rlhf': 'architecture_paper',
+  'fine-tuning': 'architecture_paper',
+  'ai agent': 'agent_capability',
+  'agentic ai': 'agent_capability',
+  'autonomous agent': 'agent_capability',
+  'multi-agent': 'agent_capability',
+  'computer use': 'agent_capability',
+  'ai assistant': 'agent_capability',
+  'humanoid robot': 'physical_ai',
+  'robotics milestone': 'physical_ai',
+  'boston dynamics': 'physical_ai',
+  'figure ai': 'physical_ai',
+  'physical intelligence': 'physical_ai',
+  'robot hand': 'physical_ai',
+  'world model': 'world_model',
+  'video generation': 'world_model',
+  'sora': 'world_model',
+  'ai video': 'world_model',
+  'open weights': 'open_source_release',
+  'open-source model': 'open_source_release',
+  'open source llm': 'open_source_release',
+  'model weights released': 'open_source_release',
+  'hugging face': 'open_source_release',
+  'ai startup': 'funding_round',
+  'seed round': 'funding_round',
+  'series a': 'funding_round',
+  'venture round': 'funding_round',
+  'raises million': 'funding_round',
+  '$100m': 'funding_round',
+  '$500m': 'funding_round',
+  'gpu cluster': 'hardware_launch',
+  'data center ai': 'hardware_launch',
+  'ai chip': 'hardware_launch',
+  'asic': 'hardware_launch',
+};
+
+const AI_LOW_KEYWORDS: KeywordMap = {
+  'ai paper': 'architecture_paper',
+  'arxiv': 'architecture_paper',
+  'research paper': 'architecture_paper',
+  'preprint': 'architecture_paper',
+  'enterprise ai': 'enterprise_adoption',
+  'ai deployment': 'enterprise_adoption',
+  'ai adoption': 'enterprise_adoption',
+  'ai integration': 'enterprise_adoption',
+  'ai benchmark': 'benchmark_record',
+  'leaderboard': 'benchmark_record',
+  'ai governance': 'regulatory_action',
+  'ai policy': 'regulatory_action',
+  'ai safety': 'safety_incident',
+  'alignment research': 'safety_incident',
+};
+
 const EXCLUSIONS = [
   'protein', 'couples', 'relationship', 'dating', 'diet', 'fitness',
   'recipe', 'cooking', 'shopping', 'fashion', 'celebrity', 'movie',
@@ -334,6 +452,33 @@ export function classifyByKeyword(title: string, variant = 'full'): ThreatClassi
   }
 
   const isTech = variant === 'tech';
+  const isAI = variant === 'ai';
+
+  // AI variant: use AI-domain keyword cascade first
+  if (isAI) {
+    let match = matchKeywords(lower, AI_CRITICAL_KEYWORDS);
+    if (match) return { level: 'critical', category: match.category, confidence: 0.9, source: 'keyword' };
+
+    match = matchKeywords(lower, AI_HIGH_KEYWORDS);
+    if (match) return { level: 'high', category: match.category, confidence: 0.8, source: 'keyword' };
+
+    match = matchKeywords(lower, AI_MEDIUM_KEYWORDS);
+    if (match) return { level: 'medium', category: match.category, confidence: 0.7, source: 'keyword' };
+
+    match = matchKeywords(lower, TECH_HIGH_KEYWORDS);
+    if (match) return { level: 'high', category: match.category, confidence: 0.75, source: 'keyword' };
+
+    match = matchKeywords(lower, TECH_MEDIUM_KEYWORDS);
+    if (match) return { level: 'medium', category: match.category, confidence: 0.65, source: 'keyword' };
+
+    match = matchKeywords(lower, AI_LOW_KEYWORDS);
+    if (match) return { level: 'low', category: match.category, confidence: 0.6, source: 'keyword' };
+
+    match = matchKeywords(lower, TECH_LOW_KEYWORDS);
+    if (match) return { level: 'low', category: match.category, confidence: 0.55, source: 'keyword' };
+
+    return { level: 'info', category: 'general', confidence: 0.3, source: 'keyword' };
+  }
 
   // Priority cascade: critical → high → medium → low → info
   let match = matchKeywords(lower, CRITICAL_KEYWORDS);
