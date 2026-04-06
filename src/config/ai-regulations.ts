@@ -1,4 +1,4 @@
-import type { AIRegulation, RegulatoryAction, CountryRegulationProfile } from '@/types';
+import type { AIRegulation, RegulatoryAction, CountryRegulationProfile, RegulationPosture } from '@/types';
 
 // Major AI Regulations & Laws Worldwide
 export const AI_REGULATIONS: AIRegulation[] = [
@@ -260,6 +260,51 @@ export const AI_REGULATIONS: AIRegulation[] = [
     ],
     description: 'Voluntary framework emphasizing ethical AI development and deployment.',
   },
+
+  // United Kingdom — AI Safety Institute
+  {
+    id: 'uk-aisi',
+    name: 'UK AI Safety Institute',
+    shortName: 'UK AISI',
+    country: 'United Kingdom',
+    region: 'Europe',
+    type: 'voluntary',
+    status: 'active',
+    announcedDate: '2023-11-01',
+    effectiveDate: '2023-11-01',
+    scope: ['Frontier AI Safety', 'Model Evaluation', 'International Coordination'],
+    keyProvisions: [
+      'Pre-deployment safety testing of frontier AI models',
+      'Evaluations for dangerous capabilities (CBRN, cyber, autonomy)',
+      'International AI Safety Report coordination',
+      'Information sharing with labs (Anthropic, OpenAI, Google DeepMind)',
+      'Publishes safety evaluation methodology and findings',
+    ],
+    link: 'https://www.gov.uk/government/organisations/ai-safety-institute',
+    description: 'World\'s first national AI safety institute, created at Bletchley AI Safety Summit. Conducts frontier model evaluations and coordinates international AI safety research.',
+  },
+
+  // United States — Trump AI EO (2025 rescission)
+  {
+    id: 'us-eo-14179',
+    name: 'Removing Barriers to American Leadership in AI',
+    shortName: 'Trump AI EO (2025)',
+    country: 'United States',
+    region: 'North America',
+    type: 'comprehensive',
+    status: 'active',
+    announcedDate: '2025-01-23',
+    effectiveDate: '2025-01-23',
+    scope: ['AI Deregulation', 'Innovation', 'Federal AI Strategy'],
+    keyProvisions: [
+      'Revoked Biden EO 14110 on AI safety',
+      'Directed agencies to remove burdensome AI regulations',
+      'Established AI Action Plan within 180 days',
+      'Prioritized US AI dominance over safety guardrails',
+    ],
+    link: 'https://www.whitehouse.gov/presidential-actions/2025/01/removing-barriers-to-american-leadership-in-artificial-intelligence/',
+    description: 'Trump administration\'s AI executive order reversing Biden-era AI safety requirements; pivots to deregulatory, innovation-first approach.',
+  },
 ];
 
 // Recent Regulatory Actions & Timeline
@@ -341,20 +386,25 @@ export const REGULATORY_ACTIONS: RegulatoryAction[] = [
 ];
 
 // Country Regulatory Profiles
+// postureScore: 0=fully permissive/no rules, 100=most restrictive/banned
 export const COUNTRY_REGULATION_PROFILES: CountryRegulationProfile[] = [
   {
     country: 'United States',
     countryCode: 'US',
     stance: 'moderate',
-    activeRegulations: ['us-eo-14110', 'us-blueprint-ai-bill-rights'],
+    posture: 'active' as RegulationPosture,
+    postureScore: 40,
+    activeRegulations: ['us-eo-14179', 'us-blueprint-ai-bill-rights'],
     proposedRegulations: [],
-    lastUpdated: '2024-08-01',
-    summary: 'Sector-specific approach with executive actions. Focus on innovation with safety guardrails.',
+    lastUpdated: '2025-01-23',
+    summary: 'Post-2025: deregulatory pivot. EO 14110 revoked; innovation-first executive order. Some state-level rules emerging (CA SB 1047 vetoed).',
   },
   {
     country: 'European Union',
     countryCode: 'EU',
     stance: 'strict',
+    posture: 'restrictive' as RegulationPosture,
+    postureScore: 85,
     activeRegulations: ['eu-ai-act', 'eu-gdpr'],
     proposedRegulations: [],
     lastUpdated: '2024-08-01',
@@ -364,82 +414,155 @@ export const COUNTRY_REGULATION_PROFILES: CountryRegulationProfile[] = [
     country: 'United Kingdom',
     countryCode: 'GB',
     stance: 'permissive',
-    activeRegulations: ['uk-pro-innovation'],
+    posture: 'active' as RegulationPosture,
+    postureScore: 35,
+    activeRegulations: ['uk-pro-innovation', 'uk-aisi'],
     proposedRegulations: [],
-    lastUpdated: '2023-12-01',
-    summary: 'Pro-innovation, principles-based approach. Light-touch regulation.',
+    lastUpdated: '2024-06-01',
+    summary: 'Pro-innovation principles-based approach with dedicated AI Safety Institute for frontier model evals.',
   },
   {
     country: 'China',
     countryCode: 'CN',
     stance: 'strict',
+    posture: 'restrictive' as RegulationPosture,
+    postureScore: 80,
     activeRegulations: ['cn-algorithm-regulations', 'cn-generative-ai'],
     proposedRegulations: [],
     lastUpdated: '2023-08-15',
-    summary: 'Content-focused regulation aligned with state values. Registration requirements.',
+    summary: 'State-aligned content rules, registration requirements for GenAI services. Aggressive domestic AI development alongside strict governance.',
   },
   {
     country: 'Canada',
     countryCode: 'CA',
     stance: 'moderate',
+    posture: 'active' as RegulationPosture,
+    postureScore: 55,
     activeRegulations: [],
     proposedRegulations: ['ca-aida'],
     lastUpdated: '2023-06-01',
-    summary: 'Comprehensive law in development. Risk-based approach similar to EU.',
+    summary: 'Comprehensive AIDA law in development. Risk-based approach similar to EU.',
   },
   {
     country: 'Singapore',
     countryCode: 'SG',
     stance: 'permissive',
+    posture: 'permissive' as RegulationPosture,
+    postureScore: 20,
     activeRegulations: ['sg-model-framework'],
     proposedRegulations: [],
     lastUpdated: '2020-01-21',
-    summary: 'Voluntary governance framework. Pro-business, innovation-friendly approach.',
+    summary: 'Voluntary governance framework. Pro-business, innovation-friendly. AI governance testing environment.',
   },
   {
     country: 'Japan',
     countryCode: 'JP',
     stance: 'permissive',
+    posture: 'permissive' as RegulationPosture,
+    postureScore: 18,
     activeRegulations: ['jp-ai-guidelines'],
     proposedRegulations: [],
     lastUpdated: '2024-04-19',
-    summary: 'Non-binding guidelines. Focus on international cooperation and innovation.',
+    summary: 'Non-binding guidelines. Focus on international cooperation and innovation. "AI-friendly" regulatory posture.',
   },
   {
     country: 'South Korea',
     countryCode: 'KR',
     stance: 'permissive',
+    posture: 'permissive' as RegulationPosture,
+    postureScore: 25,
     activeRegulations: ['kr-ai-framework'],
     proposedRegulations: [],
     lastUpdated: '2023-09-01',
-    summary: 'Voluntary ethical framework. Self-regulation approach.',
+    summary: 'Voluntary ethical framework. Self-regulation approach. AI Basic Act under debate.',
   },
   {
     country: 'Brazil',
     countryCode: 'BR',
     stance: 'moderate',
+    posture: 'active' as RegulationPosture,
+    postureScore: 50,
     activeRegulations: [],
     proposedRegulations: ['br-ai-bill'],
     lastUpdated: '2023-05-03',
-    summary: 'Comprehensive AI law proposed. Under legislative review.',
+    summary: 'Comprehensive AI law proposed (Bill 2338/2023). Risk-based approach; under legislative review.',
   },
   {
     country: 'India',
     countryCode: 'IN',
     stance: 'undefined',
+    posture: 'permissive' as RegulationPosture,
+    postureScore: 12,
     activeRegulations: [],
     proposedRegulations: [],
     lastUpdated: '2024-01-01',
-    summary: 'No comprehensive AI regulation yet. Sectoral approaches under development.',
+    summary: 'No comprehensive AI regulation. Advisory approach; Digital India AI mission active.',
   },
   {
     country: 'Australia',
     countryCode: 'AU',
     stance: 'moderate',
+    posture: 'active' as RegulationPosture,
+    postureScore: 42,
     activeRegulations: [],
     proposedRegulations: [],
-    lastUpdated: '2023-06-01',
-    summary: 'Voluntary AI Ethics Framework. Mandatory guardrails under consideration.',
+    lastUpdated: '2024-09-01',
+    summary: 'Voluntary AI Ethics Framework. Mandatory guardrails for high-risk AI under consultation.',
+  },
+  {
+    country: 'France',
+    countryCode: 'FR',
+    stance: 'moderate',
+    posture: 'active' as RegulationPosture,
+    postureScore: 60,
+    activeRegulations: ['eu-ai-act', 'eu-gdpr'],
+    proposedRegulations: [],
+    lastUpdated: '2024-08-01',
+    summary: 'EU AI Act applies. Home of Mistral AI; government actively supports national AI champions.',
+  },
+  {
+    country: 'Germany',
+    countryCode: 'DE',
+    stance: 'strict',
+    posture: 'restrictive' as RegulationPosture,
+    postureScore: 72,
+    activeRegulations: ['eu-ai-act', 'eu-gdpr'],
+    proposedRegulations: [],
+    lastUpdated: '2024-08-01',
+    summary: 'EU AI Act applies with strict national implementation. Strong data protection culture.',
+  },
+  {
+    country: 'United Arab Emirates',
+    countryCode: 'AE',
+    stance: 'permissive',
+    posture: 'active' as RegulationPosture,
+    postureScore: 30,
+    activeRegulations: [],
+    proposedRegulations: [],
+    lastUpdated: '2024-06-01',
+    summary: 'UAE AI Strategy 2031; Minister of AI appointed. Light-touch regulation to attract AI investment (G42, TII, Falcon).',
+  },
+  {
+    country: 'Saudi Arabia',
+    countryCode: 'SA',
+    stance: 'permissive',
+    posture: 'active' as RegulationPosture,
+    postureScore: 28,
+    activeRegulations: [],
+    proposedRegulations: [],
+    lastUpdated: '2024-06-01',
+    summary: 'Saudi AI Authority (SDAIA) established. Vision 2030 drives AI adoption. Light regulatory touch.',
+  },
+  {
+    country: 'Russia',
+    countryCode: 'RU',
+    stance: 'strict',
+    posture: 'restrictive' as RegulationPosture,
+    postureScore: 75,
+    activeRegulations: [],
+    proposedRegulations: [],
+    lastUpdated: '2024-01-01',
+    summary: 'National AI Strategy 2030. Restrictive on foreign AI services; state-controlled approach.',
   },
 ];
 
@@ -483,4 +606,35 @@ export function getRecentActions(months: number = 6): RegulatoryAction[] {
   return REGULATORY_ACTIONS
     .filter(action => new Date(action.date) >= cutoffDate)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
+
+// Choropleth data for deck.gl globe map
+// Returns array suitable for a GeoJsonLayer or ScatterplotLayer fill color lookup
+export interface AIRegulationChoroplethEntry {
+  isoCode: string;
+  country: string;
+  postureScore: number; // 0-100
+  posture: string;
+  summary: string;
+  /** RGBA fill color derived from postureScore */
+  color: [number, number, number, number];
+}
+
+function postureToColor(score: number): [number, number, number, number] {
+  // Green (permissive) → Yellow (active) → Orange → Red (restrictive/banned)
+  if (score <= 25) return [34, 197, 94, 180];   // green-500
+  if (score <= 50) return [234, 179, 8, 180];    // yellow-500
+  if (score <= 70) return [249, 115, 22, 180];   // orange-500
+  return [239, 68, 68, 180];                      // red-500
+}
+
+export function getAIRegulationChoroplethData(): AIRegulationChoroplethEntry[] {
+  return COUNTRY_REGULATION_PROFILES.map(profile => ({
+    isoCode: profile.countryCode,
+    country: profile.country,
+    postureScore: profile.postureScore,
+    posture: profile.posture,
+    summary: profile.summary,
+    color: postureToColor(profile.postureScore),
+  }));
 }

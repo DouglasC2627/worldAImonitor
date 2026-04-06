@@ -1210,10 +1210,15 @@ export interface RegulatoryAction {
   source?: string;
 }
 
+export type RegulationPosture = 'permissive' | 'active' | 'restrictive' | 'banned';
+
 export interface CountryRegulationProfile {
   country: string;
   countryCode: string;
   stance: RegulationStance;
+  /** Choropleth score 0–100: 0=unregulated/permissive, 100=most restrictive/banned */
+  postureScore: number;
+  posture: RegulationPosture;
   activeRegulations: string[];
   proposedRegulations: string[];
   lastUpdated: string;
