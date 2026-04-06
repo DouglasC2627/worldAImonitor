@@ -210,6 +210,25 @@ export const COMMANDS: Command[] = [
   { id: 'panel:critical-minerals', keywords: ['critical minerals', 'rare earth', 'lithium', 'cobalt', 'strategic minerals'], label: 'Critical Minerals', icon: '\u{1F48E}', category: 'panels' },
   { id: 'panel:commodity-regulation', keywords: ['commodity regulation', 'mining regulation', 'resource policy'], label: 'Regulation & Policy', icon: '\u{1F4DC}', category: 'panels' },
 
+  // AI variant panels
+  { id: 'panel:research-feed', keywords: ['research', 'papers', 'arxiv', 'transformer papers', 'ai research'], label: 'Panel: Research Papers', icon: '\u{1F4DA}', category: 'panels' },
+  { id: 'panel:model-releases', keywords: ['models', 'model releases', 'new models', 'llm releases', 'model tracker'], label: 'Panel: Model Release Tracker', icon: '\u{1F916}', category: 'panels' },
+  { id: 'panel:lab-activity', keywords: ['lab activity', 'ai labs', 'openai', 'anthropic', 'google deepmind', 'lab intel'], label: 'Panel: AI Lab Intelligence', icon: '\u{1F52C}', category: 'panels' },
+  { id: 'panel:funding-radar', keywords: ['ai funding', 'ai deals', 'ai investment', 'ai companies raised', 'ai vc'], label: 'Panel: AI Funding & Deals', icon: '\u{1F4B0}', category: 'panels' },
+  { id: 'panel:ai-policy', keywords: ['ai policy', 'ai governance', 'ai regulation eu', 'ai law', 'ai act'], label: 'Panel: AI Policy & Governance', icon: '\u{1F4DC}', category: 'panels' },
+  { id: 'panel:compute-infra', keywords: ['compute', 'gpu clusters', 'ai infrastructure', 'data centers ai', 'nvidia'], label: 'Panel: Compute & Infrastructure', icon: '\u{1F5A5}\uFE0F', category: 'panels' },
+  { id: 'panel:agentic-ai', keywords: ['agents', 'agentic ai', 'ai agents', 'autonomous ai', 'agent activity'], label: 'Panel: Agentic AI Activity', icon: '\u{1F9E0}', category: 'panels' },
+  { id: 'panel:physical-ai', keywords: ['robotics', 'physical ai', 'robots', 'robotics milestones', 'embodied ai'], label: 'Panel: Physical AI & Robotics', icon: '\u{1F9B4}', category: 'panels' },
+  { id: 'panel:world-models', keywords: ['world models', 'video ai', 'sora', 'video generation', 'simulation ai'], label: 'Panel: World Models & Video AI', icon: '\u{1F3AC}', category: 'panels' },
+  { id: 'panel:safety-alignment', keywords: ['ai safety', 'alignment', 'rlhf', 'ai risk', 'interpretability'], label: 'Panel: AI Safety & Alignment', icon: '\u{1F6E1}\uFE0F', category: 'panels' },
+  { id: 'panel:open-source-ai', keywords: ['open source ai', 'open source models', 'huggingface', 'llama', 'mistral'], label: 'Panel: Open Source AI', icon: '\u{1F513}', category: 'panels' },
+  { id: 'panel:enterprise-adoption', keywords: ['enterprise ai', 'ai adoption', 'ai deployment', 'ai enterprise'], label: 'Panel: Enterprise AI Adoption', icon: '\u{1F3E2}', category: 'panels' },
+  { id: 'panel:ai-correlation', keywords: ['ai story correlation', 'ai trends', 'ai narrative', 'correlated ai'], label: 'Panel: AI Story Correlation', icon: '\u{1F4CA}', category: 'panels' },
+  { id: 'panel:deduction-ai', keywords: ['ai deductions', 'ai situation', 'ai analysis', 'ai reasoning'], label: 'Panel: AI Situation Deductions', icon: '\u{1F4A1}', category: 'panels' },
+  { id: 'panel:capability-curve', keywords: ['capability curve', 'capability progress', 'ai capability', 'benchmark trends'], label: 'Panel: Capability Progress', icon: '\u{1F4C8}', category: 'panels' },
+  { id: 'panel:ai-forecast', keywords: ['ai predictions', 'ai prediction markets', 'ai forecast', 'ai market forecast'], label: 'Panel: AI Prediction Markets', icon: '\u{1F52E}', category: 'panels' },
+  { id: 'panel:ai-insights', keywords: ['ai synthesis', 'ai insights synthesis', 'ai intelligence digest', 'ai brief'], label: 'Panel: AI Synthesis', icon: '\u{1F4AC}', category: 'panels' },
+
   // Positive / happy panels
   { id: 'panel:positive-feed', keywords: ['good news', 'positive news', 'optimistic', 'uplifting'], label: 'Panel: Good News Feed', icon: '\u{1F33F}', category: 'panels' },
   { id: 'panel:breakthroughs', keywords: ['breakthroughs', 'science breakthroughs', 'discoveries'], label: 'Panel: Breakthroughs', icon: '\u{1F9EC}', category: 'panels' },
@@ -233,6 +252,15 @@ export const COMMANDS: Command[] = [
   { id: 'time:24h', keywords: ['24h', 'last 24 hours', 'today'], label: 'Show events from last 24 hours', icon: '\u{1F55B}', category: 'actions' },
   { id: 'time:48h', keywords: ['48h', '2 days', 'last 2 days'], label: 'Show events from last 48 hours', icon: '\u{1F4C5}', category: 'actions' },
   { id: 'time:7d', keywords: ['7d', 'week', 'last week', '7 days'], label: 'Show events from last 7 days', icon: '\u{1F5D3}\uFE0F', category: 'actions' },
+];
+
+// AI variant quick-search examples shown in the search empty state
+export const AI_QUICK_SEARCHES: { icon: string; key: string; exampleKey: string }[] = [
+  { icon: '\u{1F4DA}', key: 'commands.tips.aiResearch',   exampleKey: 'commands.tips.aiResearchExample' },
+  { icon: '\u{1F4B0}', key: 'commands.tips.aiFunding',    exampleKey: 'commands.tips.aiFundingExample' },
+  { icon: '\u{1F9B4}', key: 'commands.tips.aiRobotics',   exampleKey: 'commands.tips.aiRoboticsExample' },
+  { icon: '\u{1F916}', key: 'commands.tips.aiLabCompare', exampleKey: 'commands.tips.aiLabCompareExample' },
+  { icon: '\u{1F4DC}', key: 'commands.tips.aiPolicyEu',   exampleKey: 'commands.tips.aiPolicyEuExample' },
 ];
 
 // All ISO 3166-1 alpha-2 codes — Intl.DisplayNames resolves human-readable names at runtime

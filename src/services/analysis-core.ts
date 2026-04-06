@@ -164,7 +164,14 @@ export type SignalType =
   | 'explained_market_move'
   | 'hotspot_escalation'
   | 'sector_cascade'
-  | 'military_surge';
+  | 'military_surge'
+  // AI domain signals
+  | 'ai_cycle_amplification'
+  | 'ai_paper_to_product'
+  | 'ai_funding_scale_up'
+  | 'ai_incident_regulation'
+  | 'ai_capability_race'
+  | 'ai_ecosystem_birth';
 
 export interface CorrelationSignalCore {
   id: string;
@@ -593,6 +600,205 @@ export function detectAICycleAmplification(
   return signals;
 }
 
+// ─── AI Correlation Rules ─────────────────────────────────────────────────────
+
+/**
+ * Rule 1 — Paper → Product Pipeline
+ * When a lab publishes a paper AND releases/announces a product within a 30-90 day lag window,
+ * emit 'ai_paper_to_product' signal.
+ */
+export function detectAIPaperToProduct(
+  events: ClusteredEventCore[],
+  isRecentDuplicate: (key: string) => boolean,
+  markSignalSeen: (key: string) => void,
+): CorrelationSignalCore[] {
+  const signals: CorrelationSignalCore[] = [];
+  const PAPER_KW = ['arxiv', 'preprint', 'paper', 'research', 'study', 'benchmark'];
+  const PRODUCT_KW = ['releases', 'launch', 'launches', 'api', 'available', 'model', 'deploys', 'ships', 'introduces'];
+  const LAB_NAMES = ['openai', 'anthropic', 'deepmind', 'google', 'meta', 'mistral', 'xai', 'cohere', 'nvidia', 'apple'];
+
+  const now = Date.now();
+  const WINDOW_30D = 30 * 24 * 60 * 60 * 1000;
+  const WINDOW_90D = 90 * 24 * 60 * 60 * 1000;
+
+  // Group events by lab mention
+  for (const lab of LAB_NAMES) {
+    const labEvents = events.filter(e => (e.title + ' ' + (e.primaryTitle ?? '')).toLowerCase().includes(lab));
+    const paperEvents = labEvents.filter(e => PAPER_KW.some(k => e.title.toLowerCase().includes(k)));
+    const productEvents = labEvents.filter(e => PRODUCT_KW.some(k => e.title.toLowerCase().includes(k)));
+
+    if (paperEvents.length === 0 || productEvents.length === 0) continue;
+
+    for (const paper of paperEvents) {
+      const paperTime = paper.allItems?.[0]?.pubDate?.getTime() ?? now;
+      const matchingProduct = productEvents.find(p => {
+        const prodTime = p.allItems?.[0]?.pubDate?.getTime() ?? now;
+        const lag = prodTime - paperTime;
+        return lag >= WINDOW_30D && lag <= WINDOW_90D;
+      });
+
+      if (matchingProduct) {
+        const dedupeKey = generateDedupeKey('ai_paper_to_product', lab, paperEvents.length);
+        if (!isRecentDuplicate(dedupeKey)) {
+          markSignalSeen(dedupeKey);
+          signals.push({
+            id: generateSignalId(),
+            type: 'ai_paper_to_product',
+            title: 'Paper-to-Product Pipeline',
+            description: `${lab.charAt(0).toUpperCase() + lab.slice(1)} research paper may have led to product release within 30-90 days — typical rapid productization pattern`,
+            confidence: 0.7,
+            timestamp: new Date(),
+            data: { newsVelocity: labEvents.length, correlatedEntities: [lab], explanation: 'paper-to-product pipeline' },
+          });
+        }
+        break;
+      }
+    }
+  }
+
+  return signals;
+}
+
+/**
+ * Rule 2 — Funding Round → Scale-Up
+ * When a funding round is mentioned alongside hiring/headcount growth signals within 30 days.
+ */
+export function detectAIFundingScaleUp(
+  events: ClusteredEventCore[],
+  isRecentDuplicate: (key: string) => boolean,
+  markSignalSeen: (key: string) => void,
+): CorrelationSignalCore[] {
+  const signals: CorrelationSignalCore[] = [];
+  const FUNDING_KW = ['raises', 'funding', 'series', 'investment', 'valuation', 'round', 'billion', 'million'];
+  const HIRING_KW = ['hiring', 'headcount', 'employees', 'recruits', 'expands team', 'headcount', 'jobs', 'talent'];
+
+  const fundingEvents = events.filter(e => FUNDING_KW.some(k => e.title.toLowerCase().includes(k)));
+  const hiringEvents = events.filter(e => HIRING_KW.some(k => e.title.toLowerCase().includes(k)));
+
+  if (fundingEvents.length === 0 || hiringEvents.length === 0) return signals;
+
+  const dedupeKey = generateDedupeKey('ai_funding_scale_up', 'global', fundingEvents.length);
+  if (!isRecentDuplicate(dedupeKey)) {
+    markSignalSeen(dedupeKey);
+    signals.push({
+      id: generateSignalId(),
+      type: 'ai_funding_scale_up',
+      title: 'AI Funding → Scale-Up Signal',
+      description: `${fundingEvents.length} funding event${fundingEvents.length > 1 ? 's' : ''} co-occurring with hiring signals — labs scaling capacity`,
+      confidence: Math.min(0.85, 0.55 + fundingEvents.length * 0.05),
+      timestamp: new Date(),
+      data: { newsVelocity: fundingEvents.length + hiringEvents.length, explanation: 'funding scale-up' },
+    });
+  }
+
+  return signals;
+}
+
+/**
+ * Rule 3 — Safety Incident → Regulatory Response
+ * When a safety/incident story is followed by regulatory news in the same jurisdiction within 60 days.
+ */
+export function detectAIIncidentRegulation(
+  events: ClusteredEventCore[],
+  isRecentDuplicate: (key: string) => boolean,
+  markSignalSeen: (key: string) => void,
+): CorrelationSignalCore[] {
+  const signals: CorrelationSignalCore[] = [];
+  const INCIDENT_KW = ['incident', 'safety', 'harm', 'bias', 'misuse', 'hallucination', 'risk', 'concern', 'breach', 'failure'];
+  const REGULATION_KW = ['regulation', 'law', 'bill', 'legislation', 'ban', 'restrict', 'policy', 'act', 'executive order', 'rule'];
+
+  const incidentEvents = events.filter(e => INCIDENT_KW.some(k => e.title.toLowerCase().includes(k)));
+  const regulationEvents = events.filter(e => REGULATION_KW.some(k => e.title.toLowerCase().includes(k)));
+
+  if (incidentEvents.length === 0 || regulationEvents.length === 0) return signals;
+
+  const dedupeKey = generateDedupeKey('ai_incident_regulation', 'global', incidentEvents.length);
+  if (!isRecentDuplicate(dedupeKey)) {
+    markSignalSeen(dedupeKey);
+    signals.push({
+      id: generateSignalId(),
+      type: 'ai_incident_regulation',
+      title: 'Incident-Driven Regulation Pattern',
+      description: `AI safety incidents co-occurring with regulatory signals — incident-driven policy response cycle`,
+      confidence: Math.min(0.80, 0.50 + incidentEvents.length * 0.07 + regulationEvents.length * 0.05),
+      timestamp: new Date(),
+      data: { newsVelocity: incidentEvents.length + regulationEvents.length, explanation: 'incident-driven regulation' },
+    });
+  }
+
+  return signals;
+}
+
+/**
+ * Rule 4 — Benchmark Record → Capability Race
+ * When a new SOTA benchmark record is reported, and within 30 days a competitor announces a new model.
+ */
+export function detectAICapabilityRace(
+  events: ClusteredEventCore[],
+  isRecentDuplicate: (key: string) => boolean,
+  markSignalSeen: (key: string) => void,
+): CorrelationSignalCore[] {
+  const signals: CorrelationSignalCore[] = [];
+  const SOTA_KW = ['state-of-the-art', 'sota', 'record', 'best', 'beats', 'surpasses', 'outperforms', 'leaderboard', 'benchmark'];
+  const LAUNCH_KW = ['announces', 'releases', 'launches', 'unveils', 'introduces', 'new model', 'drops'];
+
+  const sotaEvents = events.filter(e => SOTA_KW.some(k => e.title.toLowerCase().includes(k)));
+  const launchEvents = events.filter(e => LAUNCH_KW.some(k => e.title.toLowerCase().includes(k)));
+
+  if (sotaEvents.length === 0 || launchEvents.length === 0) return signals;
+
+  const dedupeKey = generateDedupeKey('ai_capability_race', 'global', sotaEvents.length);
+  if (!isRecentDuplicate(dedupeKey)) {
+    markSignalSeen(dedupeKey);
+    signals.push({
+      id: generateSignalId(),
+      type: 'ai_capability_race',
+      title: 'Capability Race Signal',
+      description: `Benchmark record${sotaEvents.length > 1 ? 's' : ''} co-occurring with new model announcements — competitive capability escalation`,
+      confidence: Math.min(0.88, 0.60 + sotaEvents.length * 0.06),
+      timestamp: new Date(),
+      data: { newsVelocity: sotaEvents.length + launchEvents.length, explanation: 'capability race' },
+    });
+  }
+
+  return signals;
+}
+
+/**
+ * Rule 5 — Open-Source Release → Ecosystem Birth
+ * When a major open-source model release correlates with startup announcements or new project signals.
+ */
+export function detectAIEcosystemBirth(
+  events: ClusteredEventCore[],
+  isRecentDuplicate: (key: string) => boolean,
+  markSignalSeen: (key: string) => void,
+): CorrelationSignalCore[] {
+  const signals: CorrelationSignalCore[] = [];
+  const OPEN_SOURCE_KW = ['open source', 'open-source', 'open weight', 'open-weight', 'releases weights', 'mit license', 'apache license', 'hugging face', 'huggingface'];
+  const STARTUP_KW = ['startup', 'founded', 'launches', 'new company', 'seed round', 'pre-seed', 'incubator', 'built on', 'powered by'];
+
+  const openSourceEvents = events.filter(e => OPEN_SOURCE_KW.some(k => e.title.toLowerCase().includes(k)));
+  const startupEvents = events.filter(e => STARTUP_KW.some(k => e.title.toLowerCase().includes(k)));
+
+  if (openSourceEvents.length === 0 || startupEvents.length === 0) return signals;
+
+  const dedupeKey = generateDedupeKey('ai_ecosystem_birth', 'global', openSourceEvents.length);
+  if (!isRecentDuplicate(dedupeKey)) {
+    markSignalSeen(dedupeKey);
+    signals.push({
+      id: generateSignalId(),
+      type: 'ai_ecosystem_birth',
+      title: 'Ecosystem Birth Signal',
+      description: `Open-source model release${openSourceEvents.length > 1 ? 's' : ''} coinciding with startup activity — new model spawning application ecosystem`,
+      confidence: Math.min(0.82, 0.55 + openSourceEvents.length * 0.07),
+      timestamp: new Date(),
+      data: { newsVelocity: openSourceEvents.length + startupEvents.length, explanation: 'ecosystem birth' },
+    });
+  }
+
+  return signals;
+}
+
 export function analyzeCorrelationsCore(
   events: ClusteredEventCore[],
   predictions: PredictionMarketCore[],
@@ -801,6 +1007,12 @@ export function analyzeCorrelationsCore(
 
   // AI domain: detect paper → product → funding → media cycle amplification
   signals.push(...detectAICycleAmplification(events, newsTopics, isRecentDuplicate, markSignalSeen));
+  // AI domain: specific cross-domain correlation rules
+  signals.push(...detectAIPaperToProduct(events, isRecentDuplicate, markSignalSeen));
+  signals.push(...detectAIFundingScaleUp(events, isRecentDuplicate, markSignalSeen));
+  signals.push(...detectAIIncidentRegulation(events, isRecentDuplicate, markSignalSeen));
+  signals.push(...detectAICapabilityRace(events, isRecentDuplicate, markSignalSeen));
+  signals.push(...detectAIEcosystemBirth(events, isRecentDuplicate, markSignalSeen));
 
   // Dedupe by type to avoid spam
   const uniqueSignals = signals.filter((sig, idx) =>

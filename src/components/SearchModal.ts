@@ -2,7 +2,8 @@ import { escapeHtml } from '@/utils/sanitize';
 import { shuffle } from '@/utils';
 import { t } from '@/services/i18n';
 import { trackSearchUsed } from '@/services/analytics';
-import { getAllCommands, type Command } from '@/config/commands';
+import { getAllCommands, AI_QUICK_SEARCHES, type Command } from '@/config/commands';
+import { SITE_VARIANT } from '@/config';
 import { isMobileDevice } from '@/utils';
 
 interface CommandResult {
@@ -433,15 +434,17 @@ export class SearchModal {
   private renderEmpty(): void {
     if (!this.resultsList) return;
 
-    const tips: { icon: string; key: string; exampleKey: string }[] = [
-      { icon: '\u{1F30D}', key: 'commands.tips.map', exampleKey: 'commands.tips.mapExample' },
-      { icon: '\u{1F4CB}', key: 'commands.tips.panel', exampleKey: 'commands.tips.panelExample' },
-      { icon: '\u{1F4C4}', key: 'commands.tips.brief', exampleKey: 'commands.tips.briefExample' },
-      { icon: '\u{1F6E1}\uFE0F', key: 'commands.tips.layers', exampleKey: 'commands.tips.layersExample' },
-      { icon: '\u23F1\uFE0F', key: 'commands.tips.time', exampleKey: 'commands.tips.timeExample' },
-      { icon: '\u2699\uFE0F', key: 'commands.tips.settings', exampleKey: 'commands.tips.settingsExample' },
-    ];
-    if (this.sources.some(s => s.type === 'flight')) {
+    const tips: { icon: string; key: string; exampleKey: string }[] = SITE_VARIANT === 'ai'
+      ? [...AI_QUICK_SEARCHES]
+      : [
+          { icon: '\u{1F30D}', key: 'commands.tips.map', exampleKey: 'commands.tips.mapExample' },
+          { icon: '\u{1F4CB}', key: 'commands.tips.panel', exampleKey: 'commands.tips.panelExample' },
+          { icon: '\u{1F4C4}', key: 'commands.tips.brief', exampleKey: 'commands.tips.briefExample' },
+          { icon: '\u{1F6E1}\uFE0F', key: 'commands.tips.layers', exampleKey: 'commands.tips.layersExample' },
+          { icon: '\u23F1\uFE0F', key: 'commands.tips.time', exampleKey: 'commands.tips.timeExample' },
+          { icon: '\u2699\uFE0F', key: 'commands.tips.settings', exampleKey: 'commands.tips.settingsExample' },
+        ];
+    if (SITE_VARIANT !== 'ai' && this.sources.some(s => s.type === 'flight')) {
       tips.push({ icon: '\u2708\uFE0F', key: 'commands.tips.flight', exampleKey: 'commands.tips.flightExample' });
     }
 
