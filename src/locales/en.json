@@ -274,7 +274,10 @@
     "panelCatMining": "Mining & Supply Chain",
     "panelCatCommodityEcon": "Economy & Trade",
     "panelCatHappyNews": "Good News",
-    "panelCatHappyPlanet": "Planet & Giving"
+    "panelCatHappyPlanet": "Planet & Giving",
+    "panelCatAiCore": "AI Core",
+    "panelCatAiMarket": "AI Market & Policy",
+    "ai": "AI"
   },
   "panels": {
     "liveNews": "Live News",
@@ -374,7 +377,24 @@
     "gulfOil": "Gulf Oil",
     "airlineIntel": "✈️ Airline Intelligence",
     "consumerPrices": "Consumer Prices",
-    "fearGreed": "Fear & Greed"
+    "fearGreed": "Fear & Greed",
+    "researchFeed": "Research Papers",
+    "modelReleases": "Model Release Tracker",
+    "labActivity": "AI Lab Intelligence",
+    "fundingRadar": "AI Funding & Deals",
+    "aiPolicy": "AI Policy & Governance",
+    "computeInfra": "Compute & Infrastructure",
+    "agenticAi": "Agentic AI Activity",
+    "physicalAi": "Physical AI & Robotics",
+    "worldModels": "World Models & Video AI",
+    "safetyAlignment": "AI Safety & Alignment",
+    "openSourceAi": "Open Source AI",
+    "enterpriseAdoption": "Enterprise AI Adoption",
+    "aiCorrelation": "AI Story Correlation",
+    "deductionAi": "AI Situation Deductions",
+    "capabilityCurve": "Capability Progress",
+    "aiForecast": "AI Prediction Markets",
+    "aiInsights": "AI Intelligence Digest"
   },
   "commands": {
     "prefixes": {
@@ -414,7 +434,17 @@
       "layersExample": "military layers",
       "timeExample": "24h",
       "settingsExample": "dark mode",
-      "flightExample": "UAE528"
+      "flightExample": "UAE528",
+      "aiResearch": "Find the latest AI research papers",
+      "aiResearchExample": "Show me the latest transformer papers",
+      "aiFunding": "Track AI company funding rounds",
+      "aiFundingExample": "What AI companies raised money this week?",
+      "aiRobotics": "Explore physical AI & robotics milestones",
+      "aiRoboticsExample": "Show me robotics milestones",
+      "aiLabCompare": "Compare top AI labs side by side",
+      "aiLabCompareExample": "Compare OpenAI vs Anthropic last 30 days",
+      "aiPolicyEu": "Track AI regulation and policy news",
+      "aiPolicyEuExample": "AI policy news in the EU"
     },
     "keywords": {
       "military": "military",
