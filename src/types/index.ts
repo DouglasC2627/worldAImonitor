@@ -1484,3 +1484,122 @@ export interface CountryBriefSignals {
   isTier1: boolean;
   thermalEscalations: number;
 }
+
+// ─── AI Domain Types ─────────────────────────────────────────────────────────
+
+export type AIEventCategory =
+  | 'model_release'
+  | 'architecture_paper'
+  | 'funding_round'
+  | 'regulatory_action'
+  | 'safety_incident'
+  | 'benchmark_record'
+  | 'hardware_launch'
+  | 'open_source_release'
+  | 'agent_capability'
+  | 'physical_ai'
+  | 'world_model'
+  | 'enterprise_adoption';
+
+export type AICapability =
+  | 'text' | 'code' | 'vision' | 'video' | 'audio' | 'voice'
+  | 'agents' | 'tool_use' | 'reasoning' | 'math' | 'multilingual'
+  | 'long_context' | 'computer_use' | 'multimodal';
+
+export type AIVertical =
+  | 'foundation_models' | 'agentic_ai' | 'physical_ai' | 'world_models'
+  | 'ai_infrastructure' | 'ai_safety' | 'enterprise_ai' | 'vertical_ai'
+  | 'open_source_ai' | 'ai_hardware' | 'robotics' | 'video_ai';
+
+export interface AIModelRelease {
+  modelName: string;
+  lab: string;
+  labTier: 1 | 2 | 3; // 1=frontier, 2=leading, 3=emerging
+  paramCount?: string; // e.g. "70B", "1T MoE"
+  contextWindow?: number;
+  capabilities: AICapability[];
+  benchmarkScores: Record<string, number>;
+  releaseDate: Date;
+  accessType: 'api_only' | 'open_weight' | 'closed' | 'research_preview';
+  license?: string;
+  pricing?: { inputPerMToken: number; outputPerMToken: number };
+  paperLink?: string;
+  blogLink?: string;
+  modelCardLink?: string;
+}
+
+export interface AIResearchPaper {
+  arxivId: string;
+  title: string;
+  authors: string[];
+  labs: string[];
+  abstract: string;
+  categories: string[]; // cs.AI, cs.LG, etc.
+  submittedDate: Date;
+  citationCount?: number;
+  pwcLink?: string; // Papers With Code
+  significance: 'landmark' | 'notable' | 'incremental';
+  keywords: string[];
+}
+
+export interface AIFundingRound {
+  company: string;
+  amount: number; // USD
+  amountUnit: 'K' | 'M' | 'B';
+  round: 'pre_seed' | 'seed' | 'series_a' | 'series_b' | 'series_c_plus' | 'growth' | 'ipo' | 'acquisition';
+  investors: string[];
+  date: Date;
+  aiVertical: AIVertical;
+  valuation?: number;
+  pressLink?: string;
+}
+
+export interface AILabProfile {
+  id: string;
+  name: string;
+  shortName: string;
+  tier: 1 | 2 | 3;
+  founded: number;
+  headquarters: { city: string; country: string; lat: number; lon: number };
+  funding: number; // total USD raised
+  employees?: number;
+  recentPapers30d: number;
+  recentModelReleases90d: number;
+  activityScore: number; // composite 0-100
+  website: string;
+  twitterHandle?: string;
+}
+
+export interface AIBenchmarkScore {
+  benchmark: string;
+  model: string;
+  lab: string;
+  score: number;
+  date: Date;
+  isSOTA: boolean;
+  paperLink?: string;
+}
+
+export interface AIPolicyEvent {
+  title: string;
+  jurisdiction: string;
+  body: string; // e.g. "EU Parliament", "US Congress", "UK DSIT"
+  status: 'proposed' | 'draft' | 'passed' | 'enacted' | 'withdrawn';
+  effectiveDate?: Date;
+  announcedDate: Date;
+  category: 'safety' | 'transparency' | 'copyright' | 'compute_governance' | 'export_control' | 'liability';
+  severity: 'landmark' | 'significant' | 'procedural';
+  link: string;
+}
+
+export interface AISafetyIncident {
+  id: string;
+  title: string;
+  system: string;
+  lab?: string;
+  category: 'misuse' | 'misalignment' | 'bias' | 'hallucination' | 'security' | 'privacy';
+  severity: 'critical' | 'high' | 'medium' | 'low';
+  reportedDate: Date;
+  sourceLink: string;
+  aiidLink?: string;
+}
