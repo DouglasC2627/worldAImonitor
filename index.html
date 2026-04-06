@@ -129,7 +129,8 @@
 
 
     <!-- Theme: apply stored preference before first paint to prevent FOUC -->
-    <script>(function(){try{var h=location.hostname;var v;if(h.startsWith('happy.'))v='happy';else if(h.startsWith('tech.'))v='tech';else if(h.startsWith('finance.'))v='finance';if(!v&&(h==='localhost'||h==='127.0.0.1'||'__TAURI_INTERNALS__' in window))v=localStorage.getItem('worldmonitor-variant');if(v)document.documentElement.dataset.variant=v;else document.documentElement.removeAttribute('data-variant');var t=localStorage.getItem('worldmonitor-theme');if(t==='dark'||t==='light'){document.documentElement.dataset.theme=t;}else if(v==='happy'){document.documentElement.dataset.theme='light';}}catch(e){}document.documentElement.classList.add('no-transition');})()</script>
+    <script>(function(){try{var h=location.hostname;var v;if(h.startsWith('ai.'))v='ai';else if(h.startsWith('happy.'))v='happy';else if(h.startsWith('tech.'))v='tech';else if(h.startsWith('finance.'))v='finance';if(!v&&(h==='localhost'||h==='127.0.0.1'||'__TAURI_INTERNALS__' in window))v=localStorage.getItem('worldmonitor-variant');if(v)document.documentElement.dataset.variant=v;else document.documentElement.removeAttribute('data-variant');var t=localStorage.getItem('worldmonitor-theme');if(t==='dark'||t==='light'){document.documentElement.dataset.theme=t;}else if(v==='happy'){document.documentElement.dataset.theme='light';}
+    if(v==='ai'){var s=document.querySelector('title');if(s)s.textContent='World AI Monitor — Real-Time AI Intelligence Dashboard';var mTitle=document.querySelector('meta[name="title"]');if(mTitle)mTitle.setAttribute('content','World AI Monitor — Real-Time AI Intelligence Dashboard');var mDesc=document.querySelector('meta[name="description"]');if(mDesc)mDesc.setAttribute('content','Real-time AI intelligence dashboard tracking model releases, research breakthroughs, AI funding, lab activity, safety developments, and global AI policy.');var ogTitle=document.querySelector('meta[property="og:title"]');if(ogTitle)ogTitle.setAttribute('content','World AI Monitor — Real-Time AI Intelligence Dashboard');var ogDesc=document.querySelector('meta[property="og:description"]');if(ogDesc)ogDesc.setAttribute('content','Real-time AI intelligence dashboard tracking model releases, research breakthroughs, AI funding, lab activity, safety developments, and global AI policy.');var twTitle=document.querySelector('meta[name="twitter:title"]');if(twTitle)twTitle.setAttribute('content','World AI Monitor — Real-Time AI Intelligence Dashboard');var twDesc=document.querySelector('meta[name="twitter:description"]');if(twDesc)twDesc.setAttribute('content','Real-time AI intelligence dashboard tracking model releases, research breakthroughs, AI funding, lab activity, safety developments, and global AI policy.');}}catch(e){}document.documentElement.classList.add('no-transition');})()</script>
 
     <!-- Critical CSS: inline skeleton visible before JS boots -->
     <style>
@@ -192,6 +193,19 @@
       [data-variant="happy"][data-theme="dark"] .skeleton-panel{background:#222E3E;border-color:#344050}
       [data-variant="happy"][data-theme="dark"] .skeleton-panel-header{border-bottom-color:#283545}
       [data-variant="happy"][data-theme="dark"] .skeleton-line{background:linear-gradient(90deg,rgba(139,175,122,.05) 25%,rgba(139,175,122,.10) 50%,rgba(139,175,122,.05) 75%);background-size:200% 100%;animation:skel-shimmer 1.5s infinite}
+
+      /* ---------- skeleton shell (ai variant — deep dark + neon purple) ---------- */
+      [data-variant="ai"] .skeleton-shell{background:#06060f;font-family:'SF Mono','Monaco','Cascadia Code','Fira Code',monospace}
+      [data-variant="ai"] .skeleton-header{background:#0f0f1e;border-bottom-color:#1e1e38}
+      [data-variant="ai"] .skeleton-pill{background:#16162a}
+      [data-variant="ai"] .skeleton-dot{background:#7c3aed}
+      [data-variant="ai"] .skeleton-main{background:#06060f}
+      [data-variant="ai"] .skeleton-map{border-color:#1e1e38;background:#04040e}
+      [data-variant="ai"] .skeleton-map-bar{background:#0f0f1e;border-bottom-color:#1e1e38}
+      [data-variant="ai"] .skeleton-map-body::after{background:radial-gradient(ellipse 60% 50% at 50% 50%,#1a0a40 0%,#04040e 100%);opacity:.6}
+      [data-variant="ai"] .skeleton-panel{background:#0f0f1e;border-color:#1e1e38}
+      [data-variant="ai"] .skeleton-panel-header{border-bottom-color:#12122a}
+      [data-variant="ai"] .skeleton-line{background:linear-gradient(90deg,rgba(124,58,237,.05) 25%,rgba(124,58,237,.12) 50%,rgba(124,58,237,.05) 75%);background-size:200% 100%;animation:skel-shimmer 1.5s infinite}
     </style>
 
     <!-- Preconnect: map tiles + assets -->

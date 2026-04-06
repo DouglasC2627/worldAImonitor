@@ -193,6 +193,66 @@
   --map-stroke: #c8b8a8;
 }
 
+/* ============================================================
+   AI Variant — neural-network-inspired palette
+   Electric blue × neon purple on deep dark background
+   ============================================================ */
+[data-variant="ai"] {
+  /* Backgrounds */
+  --bg: #06060f;
+  --bg-secondary: #0c0c1a;
+  --surface: #0f0f1e;
+  --surface-hover: #16162a;
+  --surface-active: #1a1040;
+
+  /* Borders */
+  --border: #1e1e38;
+  --border-strong: #3a3a60;
+  --border-subtle: #12122a;
+
+  /* Text */
+  --text: #e8e8ff;
+  --text-secondary: #c8c8f0;
+  --text-dim: #8888b0;
+  --text-muted: #6666a0;
+  --text-faint: #44446a;
+  --text-ghost: #33334a;
+  --accent: #a78bfa;
+
+  /* Overlays & shadows */
+  --overlay-subtle: rgba(124, 58, 237, 0.03);
+  --overlay-light: rgba(124, 58, 237, 0.06);
+  --overlay-medium: rgba(124, 58, 237, 0.12);
+  --overlay-heavy: rgba(124, 58, 237, 0.22);
+  --shadow-color: rgba(0, 0, 0, 0.7);
+  --darken-light: rgba(0, 0, 0, 0.2);
+  --darken-medium: rgba(0, 0, 0, 0.3);
+  --darken-heavy: rgba(0, 0, 0, 0.4);
+
+  /* Scrollbar */
+  --scrollbar-thumb: #2a2a4a;
+  --scrollbar-thumb-hover: #4a4a80;
+
+  /* Input */
+  --input-bg: #0c0c20;
+
+  /* Panels */
+  --panel-bg: #0f0f1e;
+  --panel-border: #1e1e38;
+
+  /* Map — deep space with faint neural-grid */
+  --map-bg: #04040e;
+  --map-grid: #0a0a28;
+  --map-country: #0c0c22;
+  --map-stroke: #2a2a60;
+
+  /* Semantic overrides — electric blue accent replaces green */
+  --semantic-normal: #22d3ee;
+  --semantic-positive: #34d399;
+  --status-live: #22d3ee;
+  --green: #34d399;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -378,6 +438,15 @@ canvas,
 
 .variant-option[data-variant="tech"].active .variant-icon {
   filter: grayscale(0%) drop-shadow(0 0 4px var(--semantic-info));
+}
+
+.variant-option[data-variant="ai"].active {
+  color: #7c3aed;
+  background: rgba(124, 58, 237, 0.12);
+}
+
+.variant-option[data-variant="ai"].active .variant-icon {
+  filter: grayscale(0%) drop-shadow(0 0 4px #a78bfa);
 }
 
 .variant-divider {

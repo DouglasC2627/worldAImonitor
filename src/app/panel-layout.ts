@@ -215,9 +215,18 @@ export class PanelLayoutManager implements AppModule {
                title="Good News${SITE_VARIANT === 'happy' ? ` ${t('common.currentVariant')}` : ''}">
               <span class="variant-icon">☀️</span>
               <span class="variant-label">Good News</span>
+            </a>
+            <span class="variant-divider"></span>
+            <a href="${vHref('ai', 'https://ai.worldmonitor.app')}"
+               class="variant-option ${SITE_VARIANT === 'ai' ? 'active' : ''}"
+               data-variant="ai"
+               ${vTarget('ai')}
+               title="AI Monitor${SITE_VARIANT === 'ai' ? ` ${t('common.currentVariant')}` : ''}">
+              <span class="variant-icon">🤖</span>
+              <span class="variant-label">AI</span>
             </a>`;
       })()}</div>
-          <span class="logo">MONITOR</span><span class="logo-mobile">World Monitor</span><span class="version">v${__APP_VERSION__}</span>${BETA_MODE ? '<span class="beta-badge">BETA</span>' : ''}
+          <span class="logo">${SITE_VARIANT === 'ai' ? 'AI MONITOR' : 'MONITOR'}</span><span class="logo-mobile">${SITE_VARIANT === 'ai' ? 'World AI Monitor' : 'World Monitor'}</span><span class="version">v${__APP_VERSION__}</span>${BETA_MODE ? '<span class="beta-badge">BETA</span>' : ''}
           <a href="https://x.com/eliehabib" target="_blank" rel="noopener" class="credit-link">
             <svg class="x-logo" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
             <span class="credit-text">@eliehabib</span>
@@ -384,7 +393,7 @@ export class PanelLayoutManager implements AppModule {
           <a href="https://discord.gg/re63kWKxaz" target="_blank" rel="noopener">Discord</a>
           <a href="https://x.com/worldmonitorai" target="_blank" rel="noopener">X</a>
         </nav>
-        <span class="site-footer-copy">&copy; ${new Date().getFullYear()} World Monitor</span>
+        <span class="site-footer-copy">&copy; ${new Date().getFullYear()} ${SITE_VARIANT === 'ai' ? 'World AI Monitor' : 'World Monitor'}</span>
       </footer>
     `;
 
