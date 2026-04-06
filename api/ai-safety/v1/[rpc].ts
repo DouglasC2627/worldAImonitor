@@ -8,6 +8,8 @@ export const config = { runtime: 'edge' };
  */
 
 import { getCachedJson } from '../../../server/_shared/redis';
+import { filterValid, validateAISafetyIncident } from '../../../server/_shared/ai-validators';
+import type { AISafetyIncident } from '../../../src/types';
 
 export default async function handler(req: Request): Promise<Response> {
   const url = new URL(req.url);
@@ -26,13 +28,21 @@ export default async function handler(req: Request): Promise<Response> {
   }
 
   try {
-    const data = await getCachedJson(key, true);
+    const data = await getCachedJson(key, true) as { incidents?: unknown[]; vulnerabilities?: unknown[]; fetchedAt?: number } | null;
     if (!data) {
       return new Response(JSON.stringify({ incidents: [], vulnerabilities: [], fetchedAt: 0 }), {
         status: 200,
         headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=600, stale-while-revalidate=3600' },
       });
     }
+    if (rpc === 'incidents') {
+      const incidents = filterValid<AISafetyIncident>(data.incidents, validateAISafetyIncident, 'ai-safety/incidents');
+      return new Response(JSON.stringify({ incidents, fetchedAt: data.fetchedAt ?? 0 }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=600, stale-while-revalidate=3600' },
+      });
+    }
+    // vulnerabilities: pass through (format varies)
     return new Response(JSON.stringify(data), {
       status: 200,
       headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=600, stale-while-revalidate=3600' },

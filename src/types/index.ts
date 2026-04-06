@@ -1608,3 +1608,103 @@ export interface AISafetyIncident {
   sourceLink: string;
   aiidLink?: string;
 }
+
+// ─── Type Guards for AI Domain Models ────────────────────────────────────────
+// Use these at API / data-loader boundaries to validate incoming JSON before
+// casting to typed interfaces.
+
+export function isAIResearchPaper(v: unknown): v is AIResearchPaper {
+  if (!v || typeof v !== 'object') return false;
+  const o = v as Record<string, unknown>;
+  return (
+    typeof o['arxivId'] === 'string' &&
+    typeof o['title'] === 'string' &&
+    Array.isArray(o['authors']) &&
+    Array.isArray(o['labs']) &&
+    typeof o['abstract'] === 'string' &&
+    Array.isArray(o['categories']) &&
+    (o['submittedDate'] instanceof Date || typeof o['submittedDate'] === 'string' || typeof o['submittedDate'] === 'number') &&
+    (o['significance'] === 'landmark' || o['significance'] === 'notable' || o['significance'] === 'incremental') &&
+    Array.isArray(o['keywords'])
+  );
+}
+
+export function isAIFundingRound(v: unknown): v is AIFundingRound {
+  if (!v || typeof v !== 'object') return false;
+  const o = v as Record<string, unknown>;
+  return (
+    typeof o['company'] === 'string' &&
+    typeof o['amount'] === 'number' &&
+    (o['amountUnit'] === 'K' || o['amountUnit'] === 'M' || o['amountUnit'] === 'B') &&
+    Array.isArray(o['investors']) &&
+    (o['date'] instanceof Date || typeof o['date'] === 'string' || typeof o['date'] === 'number') &&
+    typeof o['aiVertical'] === 'string'
+  );
+}
+
+export function isAIModelRelease(v: unknown): v is AIModelRelease {
+  if (!v || typeof v !== 'object') return false;
+  const o = v as Record<string, unknown>;
+  return (
+    typeof o['modelName'] === 'string' &&
+    typeof o['lab'] === 'string' &&
+    (o['labTier'] === 1 || o['labTier'] === 2 || o['labTier'] === 3) &&
+    Array.isArray(o['capabilities']) &&
+    (o['releaseDate'] instanceof Date || typeof o['releaseDate'] === 'string' || typeof o['releaseDate'] === 'number') &&
+    typeof o['accessType'] === 'string'
+  );
+}
+
+export function isAILabProfile(v: unknown): v is AILabProfile {
+  if (!v || typeof v !== 'object') return false;
+  const o = v as Record<string, unknown>;
+  return (
+    typeof o['id'] === 'string' &&
+    typeof o['name'] === 'string' &&
+    typeof o['shortName'] === 'string' &&
+    typeof o['activityScore'] === 'number' &&
+    typeof o['website'] === 'string'
+  );
+}
+
+export function isAIBenchmarkScore(v: unknown): v is AIBenchmarkScore {
+  if (!v || typeof v !== 'object') return false;
+  const o = v as Record<string, unknown>;
+  return (
+    typeof o['benchmark'] === 'string' &&
+    typeof o['model'] === 'string' &&
+    typeof o['lab'] === 'string' &&
+    typeof o['score'] === 'number' &&
+    typeof o['isSOTA'] === 'boolean'
+  );
+}
+
+export function isAIPolicyEvent(v: unknown): v is AIPolicyEvent {
+  if (!v || typeof v !== 'object') return false;
+  const o = v as Record<string, unknown>;
+  return (
+    typeof o['title'] === 'string' &&
+    typeof o['jurisdiction'] === 'string' &&
+    typeof o['body'] === 'string' &&
+    typeof o['status'] === 'string' &&
+    typeof o['link'] === 'string'
+  );
+}
+
+export function isAISafetyIncident(v: unknown): v is AISafetyIncident {
+  if (!v || typeof v !== 'object') return false;
+  const o = v as Record<string, unknown>;
+  return (
+    typeof o['id'] === 'string' &&
+    typeof o['title'] === 'string' &&
+    typeof o['system'] === 'string' &&
+    typeof o['category'] === 'string' &&
+    typeof o['severity'] === 'string' &&
+    typeof o['sourceLink'] === 'string'
+  );
+}
+
+/** Filters an unknown array, keeping only entries that pass the given type guard. */
+export function filterTyped<T>(arr: unknown[], guard: (v: unknown) => v is T): T[] {
+  return arr.filter(guard);
+}

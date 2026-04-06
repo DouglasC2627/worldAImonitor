@@ -8,6 +8,8 @@ export const config = { runtime: 'edge' };
  */
 
 import { getCachedJson } from '../../../server/_shared/redis';
+import { filterValid, validateAIBenchmarkScore } from '../../../server/_shared/ai-validators';
+import type { AIBenchmarkScore } from '../../../src/types';
 
 export default async function handler(req: Request): Promise<Response> {
   const url = new URL(req.url);
@@ -26,13 +28,23 @@ export default async function handler(req: Request): Promise<Response> {
   }
 
   try {
-    const data = await getCachedJson(key, true);
+    const data = await getCachedJson(key, true) as { scores?: unknown[]; leaderboards?: unknown[]; alerts?: unknown[]; fetchedAt?: number } | null;
     if (!data) {
       return new Response(JSON.stringify({ leaderboards: [], alerts: [], fetchedAt: 0 }), {
         status: 200,
         headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=600, stale-while-revalidate=3600' },
       });
     }
+    if (rpc === 'leaderboards') {
+      // Scores may be stored flat or nested; validate whichever array is present
+      const raw = data.scores ?? data.leaderboards ?? [];
+      const scores = filterValid<AIBenchmarkScore>(raw, validateAIBenchmarkScore, 'ai-benchmarks/leaderboards');
+      return new Response(JSON.stringify({ scores, fetchedAt: data.fetchedAt ?? 0 }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=600, stale-while-revalidate=3600' },
+      });
+    }
+    // sota-alerts: pass through without strict validation (format varies)
     return new Response(JSON.stringify(data), {
       status: 200,
       headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=600, stale-while-revalidate=3600' },

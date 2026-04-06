@@ -7,6 +7,8 @@ export const config = { runtime: 'edge' };
  */
 
 import { getCachedJson } from '../../../server/_shared/redis';
+import { filterValid, validateAIFundingRound } from '../../../server/_shared/ai-validators';
+import type { AIFundingRound } from '../../../src/types';
 
 export default async function handler(req: Request): Promise<Response> {
   const url = new URL(req.url);
@@ -20,14 +22,15 @@ export default async function handler(req: Request): Promise<Response> {
   }
 
   try {
-    const data = await getCachedJson('ai-funding:rounds:v1', true);
+    const data = await getCachedJson('ai-funding:rounds:v1', true) as { rounds?: unknown[]; fetchedAt?: number } | null;
     if (!data) {
       return new Response(JSON.stringify({ rounds: [], fetchedAt: 0 }), {
         status: 200,
         headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=600, stale-while-revalidate=1800' },
       });
     }
-    return new Response(JSON.stringify(data), {
+    const rounds = filterValid<AIFundingRound>(data.rounds, validateAIFundingRound, 'ai-funding/rounds');
+    return new Response(JSON.stringify({ rounds, fetchedAt: data.fetchedAt ?? 0 }), {
       status: 200,
       headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=600, stale-while-revalidate=1800' },
     });

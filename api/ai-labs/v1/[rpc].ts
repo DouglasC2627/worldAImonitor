@@ -7,6 +7,8 @@ export const config = { runtime: 'edge' };
  */
 
 import { getCachedJson } from '../../../server/_shared/redis';
+import { filterValid, validateAILabProfile } from '../../../server/_shared/ai-validators';
+import type { AILabProfile } from '../../../src/types';
 
 export default async function handler(req: Request): Promise<Response> {
   const url = new URL(req.url);
@@ -20,14 +22,15 @@ export default async function handler(req: Request): Promise<Response> {
   }
 
   try {
-    const data = await getCachedJson('ai-labs:profiles:v1', true);
+    const data = await getCachedJson('ai-labs:profiles:v1', true) as { profiles?: unknown[]; fetchedAt?: number } | null;
     if (!data) {
       return new Response(JSON.stringify({ profiles: [], fetchedAt: 0 }), {
         status: 200,
         headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=600, stale-while-revalidate=3600' },
       });
     }
-    return new Response(JSON.stringify(data), {
+    const profiles = filterValid<AILabProfile>(data.profiles, validateAILabProfile, 'ai-labs/profiles');
+    return new Response(JSON.stringify({ profiles, fetchedAt: data.fetchedAt ?? 0 }), {
       status: 200,
       headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=600, stale-while-revalidate=3600' },
     });
