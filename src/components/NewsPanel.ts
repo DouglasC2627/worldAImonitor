@@ -12,7 +12,12 @@ import { track } from '@/services/analytics';
 
 type SortMode = 'relevance' | 'newest';
 
-/** Threshold for enabling virtual scrolling */
+/**
+ * Threshold for enabling virtual scrolling (WindowedList).
+ * Panels with more than this many items — including the AI variant's
+ * `research-feed` which can accumulate 200–300 ArXiv papers — automatically
+ * switch to chunk-based windowed rendering to keep DOM node count low.
+ */
 const VIRTUAL_SCROLL_THRESHOLD = 15;
 
 /** Summary cache TTL in milliseconds (10 minutes) */
